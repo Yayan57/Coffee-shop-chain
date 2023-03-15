@@ -2,6 +2,57 @@
   include('includes/header.php');
 ?>
 
+<?php
+    session_start();
+    $message='';
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        $host = 'coffee-shop.mysql.database.azure.com';
+        $username = 'group9';
+        $password = 'Databases9!';
+        $db_name = 'pointofsales';
+
+        //Initializes MySQLi
+        $con = mysqli_init();
+
+        //mysqli_ssl_set($conn,NULL,NULL, "/var/www/html/DigiCertGlobalRootG2.crt.pem", NULL, NULL);
+
+        // Establish the connection
+        mysqli_real_connect($con, $host, $username, $password, $db_name, 3306, NULL, MYSQLI_CLIENT_SSL);
+
+        //If connection failed, show the error
+        if (mysqli_connect_errno())
+        {
+            die('Failed to connect to MySQL: '.mysqli_connect_error());
+        }
+        //Get user connection's credential
+        $connect = mysqli_query($con,
+        "SELECT * FROM customer WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
+        $row = mysqli_fetch_row($connect);
+
+
+        //set id and username
+        if(is_array($row))
+        {
+            foreach($connect as $row){
+                $_SESSION["username"] = $row['username'];
+                $_SESSION["name"] = $row["name"];       
+        }
+        }        
+        else
+        {
+            //in case username or password is wrong
+            $message = "Username or password is wrong.";
+        }
+
+    }
+
+    if(isset($_SESSION['username']))
+    {
+        header('Location:landing.php');
+    }
+?>
 
 <html>
     <head>
