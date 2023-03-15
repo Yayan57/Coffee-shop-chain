@@ -106,3 +106,7 @@ header {
   opacity: .9;
   font-weight: 200;
 }
+
+h2.title{
+  text-align: center;
+}
