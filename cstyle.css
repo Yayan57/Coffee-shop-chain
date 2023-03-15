@@ -1,0 +1,9 @@
+h2.title{
+    text-align: center;
+}
+
+.center {
+    padding: 70px 0;
+    border: 3px solid green;
+    text-align: center;
+}
