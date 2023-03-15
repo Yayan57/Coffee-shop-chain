@@ -27,30 +27,44 @@
             die('Failed to connect to MySQL: '.mysqli_connect_error());
         }
         //Get user connection's credential
-        $connect = mysqli_query($con,
-        "SELECT * FROM customer WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
-        $row = mysqli_fetch_row($connect);
+        if(isset($_POST['emp']) or isset($_POST['customer'])){
+            if(!empty($_POST['emp'])){
+                $connect = mysqli_query($con,
+                "SELECT * FROM employee WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
+            }
+            elseif(!empty($_POST['customer'])){
+                $connect = mysqli_query($con,
+                "SELECT * FROM customer WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
+            }
+            $row = mysqli_fetch_row($connect);
 
 
-        //set id and username
-        if(is_array($row))
-        {
-            foreach($connect as $row){
-                $_SESSION["username"] = $row['username'];
-                $_SESSION["name"] = $row["name"];       
+            //set id and username
+            if(is_array($row))
+            {
+                foreach($connect as $row){
+                    $_SESSION["username"] = $row['username'];
+                    $_SESSION["name"] = $row["name"];       
+                }
+            }        
+            else
+            {
+                //in case username or password is wrong
+                $message = "Username or password is wrong.";
+            }
+
+        
+
+            if(isset($_SESSION['username']))
+            {
+                header('Location:landing.php');
+            }
         }
-        }        
         else
-        {
-            //in case username or password is wrong
-            $message = "Username or password is wrong.";
-        }
-
-    }
-
-    if(isset($_SESSION['username']))
-    {
-        header('Location:landing.php');
+            {
+                //in case username or password is wrong
+                $message = "Select type of Log In";
+            }
     }
 ?>
 
