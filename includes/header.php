@@ -7,9 +7,9 @@
 <header class="header">
   <a href="#default" class="title">COFEE</a>
   <div class="hright">
-    <a class="active" href="#home">Home</a>
+    <a class="active" href="#home" onclick="window.location.href = 'landing.php';">Home</a>
     <a href="#contact">About</a>
-    <a href="#about">Sign In/Up</a>
+    <a href="#about" onclick="window.location.href = 'login.php';">Sign In/Up</a>
   </div>
 </header>
 </body>
