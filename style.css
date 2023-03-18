@@ -118,3 +118,7 @@ header {
   font-weight: 200;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
