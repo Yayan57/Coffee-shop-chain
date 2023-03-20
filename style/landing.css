@@ -1,14 +1,17 @@
-.background { 
-	background-color:rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .background { 
+	background-color:rgb(0, 0, 0);
 	height:auto;
 }
 
 .backimg { 
-
-    max-width:100%;
+  max-width:100%;
 	height: auto;
-    margin: auto;
-    object-fit: cover;
+  object-fit: cover;
 	left:0px;
 	top:0px;
 	background-image:url(assets/coback.jpeg);
@@ -76,4 +79,3 @@
 .button-1:disabled {
   cursor: auto;
 }
-
