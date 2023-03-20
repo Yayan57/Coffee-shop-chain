@@ -1,0 +1,40 @@
+/* Virtual Register */
+position: relative;
+width: 1920px;
+height: 1080px;
+background: #474747;
+
+/* Cart */
+position: absolute;
+width: 401px;
+height: 1080px;
+left: 1519px;
+top: 0px;
+
+/* Beverage Selection */
+position: absolute;
+width: 400px;
+height: 400px;
+left: 190px;
+top: 211px;
+
+/* Food Selection */
+position: absolute;
+width: 400px;
+height: 400px;
+left: 819px;
+top: 211px;
+
+/* Checkout */
+position: absolute;
+width: 401px;
+height: 121px;
+left: 1519px;
+top: 959px;
+
+/* Quit */
+position: absolute;
+width: 60px;
+height: 61px;
+left: 1435px;
+top: 28px;
