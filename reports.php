@@ -8,16 +8,18 @@
 	<title>Popular Items Report</title>
 </head>
 <body>
-	<h2>Popular Items Report</h2>
-	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-		Start Date: <input type="date" name="start_date"><br><br>
-		End Date: <input type="date" name="end_date"><br><br>
-		<input type="submit" name="submit" value="Generate Report">
+	<h1>Popular Items Report</h1>
+	<form action="" method="post">
+		<label for="start">Start Date:</label>
+		<input type="date" name="start" required>
+		<label for="end">End Date:</label>
+		<input type="date" name="end" required>
+		<input type="submit" value="Generate Report">
 	</form>
 	<br>
 
 	<?php
-	// connect to database
+	// db connections
 	$servername = "coffee-shop.mysql.database.azure.com";
 	$username = "group9";
 	$password = "Databases9!";
@@ -30,12 +32,12 @@
 	  die("Connection failed: " . $conn->connect_error);
 	}
 
-	// get date range from user
+	// receiving date range input
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$start_date = $_POST["start_date"];
-		$end_date = $_POST["end_date"];
+		$start_date = $_POST["start"];
+		$end_date = $_POST["end"];
 
-		// query to get popular items within date range
+		// query to get 10 items in the date range
 		$sql = "SELECT product_id, SUM(quantity) AS total_quantity 
 				FROM transaction_items 
 				INNER JOIN transaction_details ON transaction_items.transit_id = transaction_details.transaction_id 
@@ -46,7 +48,7 @@
 
 		$result = $conn->query($sql);
 
-		// generate HTML report
+		// generates the table with items
 		if ($result->num_rows > 0) {
 		  echo "<table><tr><th>Product ID</th><th>Total Quantity Sold</th></tr>";
 		  while($row = $result->fetch_assoc()) {
@@ -57,12 +59,74 @@
 		  echo "No results found.";
 		}
 	}
-
-	// close database connection
-	$conn->close();
 	?>
 </body>
 </html>
+
+
+<html>
+<head>
+	<title>Inventory Report</title>
+</head>
+<body>
+	<h1>Inventory Report</h1>
+	<form action="" method="post">
+		<label for="start_date">Start Date:</label>
+		<input type="date" name="start_date" required>
+		<label for="end_date">End Date:</label>
+		<input type="date" name="end_date" required>
+		<input type="submit" value="Generate Report">
+	</form>
+
+	<?php
+		// checking form submission 
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$start_date = $_POST['start_date'];
+			$end_date = $_POST['end_date'];
+
+			// get inventory on start date
+			$sql_start = "SELECT productid, quantity FROM inventory";
+			$result_start = mysqli_query($conn, $sql_start);
+			$inventory_start = array();
+			while ($row_start = mysqli_fetch_assoc($result_start)) {
+				$inventory_start[$row_start['productid']] = $row_start['quantity'];
+			}
+
+			// get inventory on end date
+			$sql_end = "SELECT transit_id, product_id, quantity FROM transaction_items INNER JOIN transaction_details ON transaction_items.transit_id = transaction_details.transaction_id WHERE transaction_details.date BETWEEN '$start_date' AND '$end_date'";
+			$result_end = mysqli_query($conn, $sql_end);
+			$inventory_end = array();
+			while ($row_end = mysqli_fetch_assoc($result_end)) {
+				$product_id = $row_end['product_id'];
+				$quantity = $row_end['quantity'];
+				if (isset($inventory_end[$product_id])) {
+					$inventory_end[$product_id] += $quantity;
+				} else {
+					$inventory_end[$product_id] = $quantity;
+				}
+			}
+
+			// creating the report
+			echo "<h2>Inventory Levels</h2>";
+			echo "<table><tr><th>Product ID</th><th>Item Name</th><th>Starting Quantity</th><th>Ending Quantity</th><th>Change</th></tr>";
+			$sql_inventory = "SELECT productid, item_name FROM inventory";
+			$result_inventory = mysqli_query($conn, $sql_inventory);
+			while ($row_inventory = mysqli_fetch_assoc($result_inventory)) {
+				$product_id = $row_inventory['productid'];
+				$item_name = $row_inventory['item_name'];
+				$start_quantity = isset($inventory_start[$product_id]) ? $inventory_start[$product_id] : 0;
+				$end_quantity = isset($inventory_end[$product_id]) ? $inventory_end[$product_id] : 0;
+				$change = $end_quantity - $start_quantity;
+				echo "<tr><td>$product_id</td><td>$item_name</td><td>$start_quantity</td><td>$end_quantity</td><td>$change</td></tr>";
+			}
+			echo "</table>";
+		}
+
+		// closing db connection
+		mysqli_close($conn);
+	?>
+</body>
+</html
 
 <?php 
   include('includes/footer.php');
