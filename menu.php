@@ -41,16 +41,18 @@
         removeButton.className = "remove-button";
         removeButton.innerHTML = "Remove";
         removeButton.onclick = function() {
-          newOutput.parentNode.removeChild(newOutput);
-          removeButton.parentNode.removeChild(removeButton);
-          total = total - num;
-          var totaloutput = document.getElementById("output-area-2");
-            totaloutput.innerHTML = total;
+        newOutput.parentNode.removeChild(newOutput);
+        removeButton.parentNode.removeChild(removeButton);
+        total = total - num;
+        var totalstrng = "$"+totaloutput+"0"
+        var totalstring = document.getElementById("output-area-2");
+        totalstring.innerHTML = "$"+total+".0";
         };
         newOutput.appendChild(removeButton);
         output.appendChild(newOutput);
-        var totaloutput = document.getElementById("output-area-2");
-        totaloutput.innerHTML = total;
+        var totalstrng = "$"+totaloutput+"0"
+        var totalstring = document.getElementById("output-area-2");
+        totalstring.innerHTML = "$"+total;
       }
     </script>
 </head>
