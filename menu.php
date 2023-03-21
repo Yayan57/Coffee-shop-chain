@@ -1,3 +1,7 @@
+<?php 
+  include('includes/header.php');
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -206,3 +210,7 @@
     </div>
 </body>
 </html>
+
+<?php 
+  include('includes/footer.php');
+?>

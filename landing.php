@@ -11,7 +11,7 @@
   </head>
   <div class="background">
       <div class = "cont">
-          <button class = "button-1">
+          <button class = "button-1" onclick="window.location.href = 'menu.php';">
               View our menu
           </button>
       </div>
