@@ -5,18 +5,17 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //
 
+// db connections
 $servername = "coffee-shop.mysql.database.azure.com";
 $username = "group9";
-$password = "Databases9";
+$password = "Databases9!";
 $dbname = "pointofsales";
 
-// Create connection
 $con = mysqli_init();
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); //checks for sql error
-mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306);
-
+mysqli_ssl_set($con, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
 if ($con->connect_error) {
-	die("Connection failed: " . $con->connect_error);
+  die("Connection failed: " . $con->connect_error);
 }
 
 // Get form data
@@ -35,17 +34,17 @@ if ($result->num_rows > 0) {
 	// Item already exists, update quantity
 	$sql = "UPDATE inventory SET quantity = quantity + '$quantity' WHERE productid = '$productid'";
 	if ($con->query($sql) === TRUE)
-	header("Location: index.php");
+	header("Location: inventoryregister.php");
 	exit();
 } else {
 // Item does not exist, add new item
 $sql = "INSERT INTO inventory (productid, item_name, price, quantity) VALUES ('$productid', '$item_name', '$price', '$quantity')";
 if ($con->query($sql) === TRUE) {
-	header("Location: index.php");
+	header("Location: inventoryregister.php");
 	exit();
 } else {
 	$error = "Error: " . $sql . "<br>" . $con->error;
-	header("Location: index.php?error=$error");
+	header("Location: inventoryregister.php?error=$error");
 	exit();
 }
 }
