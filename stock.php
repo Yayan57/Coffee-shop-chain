@@ -1,6 +1,11 @@
 <?php 
   include('includes/header.php');
 
+  $servername = "coffee-shop.mysql.database.azure.com";
+  $username = "group9";
+  $password = "Databases9";
+  $dbname = "pointofsales";
+
   function Print_Stock(){
     echo "stock item";
     echo $item_amount
@@ -13,22 +18,27 @@
 </h1>
     <a href = "#stock"> table containing stock </a>
     <?php 
-    foreach ($item as $stock){
-        Print_Stock()
-        Order Item?
-        <input type="radio" name="order"
-        <?php if (isset($order) && $order=="yes") echo "checked";?>
-            value="yes"> yes
-        <input type="radio" name="order"
-        <?php if (isset($order) && $order=="no") echo "checked";?>
-            value="no"> no
-        if (value = "yes"){
-            echo "how many do you want?"
-            Order_Number: <input type="number" name="O_N" value="<?php echo $O_N;?>" >
-            echo $O_N + $item + "ordered."
-            $item_amount = $item_amount - $O_N
-        }
+    $db = mysqli_connect($servername, $username, $password, $dbname);
+
+// Check connection
+if (!$db) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Retrieve stock information
+$sql = "SELECT * FROM stock";
+$result = mysqli_query($db, $sql);
+
+// Display stock information
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<p>" . $row["name"] . " - " . $row["quantity"] . " available - <a href='order.php?id=" . $row["id"] . "'>Order Now</a></p>";
     }
+} else {
+    echo "No stock available";
+}
+
+mysqli_close($db);
     ?>
 </div>
 
