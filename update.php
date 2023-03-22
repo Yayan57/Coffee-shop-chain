@@ -41,14 +41,23 @@
     $update_str = "";
 
     if(!empty($_POST['name'])){
+        if($update_str != ""){
+            $update_str = $update_str." , ";
+        }
         $update_str = $update_str."name='".$_POST['name']."'";
     }
 
     if(!empty($_POST['fname'])){
+        if($update_str != ""){
+            $update_str = $update_str." , ";
+        }
         $update_str = $update_str."ename_first='".$_POST['fname']."'";
     }
 
     if(!empty($_POST['lname'])){
+        if($update_str != ""){
+            $update_str = $update_str." , ";
+        }
         $update_str = $update_str."ename_last='".$_POST['lname']."'";
     }
 
@@ -78,7 +87,11 @@
     if($_SESSION['type']=='customer'){
         $change = "UPDATE ".$_SESSION['type']." SET ".$update_str." WHERE username = '".$_SESSION['username']."'"; 
     }
-
+    
+    if($_SESSION['type']=='employee'){
+        $change = "UPDATE ".$_SESSION['type']." SET ".$update_str." WHERE username = '".$_SESSION['username']."'"; 
+    }
+    
     if (mysqli_query($con,$change)) {
         //$message= "Record updated successfully";
         header('Location:profile.php');
@@ -94,7 +107,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="cstyle.css">
+        <link rel="stylesheet" href="style/login.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Update Information</title>

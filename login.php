@@ -8,10 +8,8 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
-        if(isset($_POST['reg'])){
-            header('Location:landing.php');
-        }
-        else{
+        
+        
         $host = 'coffee-shop.mysql.database.azure.com';
         $username = 'group9';
         $password = 'Databases9!';
@@ -33,15 +31,16 @@
         //Get user connection's credential
         if(isset($_POST['emp']) or isset($_POST['customer'])){
             if(!empty($_POST['emp'])){
-                $connect = mysqli_query($con,
-                "SELECT * FROM employee WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
                 $_SESSION["type"] = "employee";
             }
             elseif(!empty($_POST['customer'])){
-                $connect = mysqli_query($con,
-                "SELECT * FROM customer WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
                 $_SESSION["type"] = "customer";
             }
+            if(isset($_POST['reg'])){
+                header('Location:register.php');
+            }
+            $connect = mysqli_query($con,
+                "SELECT * FROM ".$_SESSION['type']." WHERE username = '".$_POST["username"]."' and password = '".$_POST["password"]."'");
             $row = mysqli_fetch_row($connect);
 
 
@@ -71,7 +70,6 @@
                 $message = "Select type of Log In";
             }
         }
-    }
 ?>
 
 <html>
