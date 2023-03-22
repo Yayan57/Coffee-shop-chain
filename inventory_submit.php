@@ -1,4 +1,10 @@
 <?php
+//shows any errors on the script
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//
+
 $servername = "coffee-shop.mysql.database.azure.com";
 $username = "group9";
 $password = "Databases9";
@@ -6,8 +12,9 @@ $dbname = "pointofsales";
 
 // Create connection
 $con = mysqli_init();
-mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, NULL, MYSQLI_CLIENT_SSL);
-// Check connection
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); //checks for sql error
+mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306);
+
 if ($con->connect_error) {
 	die("Connection failed: " . $con->connect_error);
 }
@@ -17,6 +24,8 @@ $productid = mysqli_real_escape_string($con, $_POST['productid']);
 $item_name = mysqli_real_escape_string($con, $_POST['item_name']);
 $price = mysqli_real_escape_string($con, $_POST['price']);
 $quantity = mysqli_real_escape_string($con, $_POST['quantity']);
+
+
 
 // Check if item already exists
 $sql = "SELECT * FROM inventory WHERE productid = '$productid'";
