@@ -50,7 +50,7 @@
         total = total - num;
         var totalstrng = "$"+totaloutput+"0"
         var totalstring = document.getElementById("output-area-2");
-        totalstring.innerHTML = "$"+total+".0";
+        totalstring.innerHTML = "$"+total;
         };
         newOutput.appendChild(removeButton);
         output.appendChild(newOutput);
