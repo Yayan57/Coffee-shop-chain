@@ -48,7 +48,11 @@
             if(is_array($row))
             {
                 foreach($connect as $row){
-                    $_SESSION["username"] = $row['username'];       
+                    $_SESSION["username"] = $row['username'];
+                    if(!empty($_POST['emp'])){
+                        $_SESSION['employee_id'] = $row['id'];
+                        $_SESSION['branch_number'] = $row['bran_num'];
+                    }       
                 }
             }        
             else
@@ -61,7 +65,12 @@
 
             if(isset($_SESSION['username']))
             {
-                header('Location:landing.php');
+                if(!empty($_POST["emp"])){
+                    header('Location:employeehome.php');
+                }
+                if(!empty($_POST['customer'])){
+                    header('Location:landing.php');
+                }
             }
         }
         else
