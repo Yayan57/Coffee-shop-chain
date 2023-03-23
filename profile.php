@@ -38,6 +38,10 @@
         unset($_SESSION['username']);
         unset($_SESSION['type']);
         header("Location:login.php");
+        if(isset($_SESSION['employee_id'])){
+            unset($_SESSION['employee_id']);
+            unset($_SESSION['branch_number']);
+        }
     }
 
 

@@ -33,7 +33,7 @@ $sql = "SELECT * FROM transaction_details td
         WHERE td.branchN = '$branch_number'
         ORDER BY td.date DESC, td.time DESC";
 
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($con, $sql);
 
 ?>
 
@@ -100,7 +100,7 @@ $result = mysqli_query($conn, $sql);
 
 <?php
 // close the database connection
-mysqli_close($conn);
+mysqli_close($con);
 ?>
 
 <?php 
