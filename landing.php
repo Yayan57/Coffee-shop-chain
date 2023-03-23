@@ -21,5 +21,5 @@
 
  
 <?php 
-  include('includes/footer.php');
+  include('includes/mfooter.php');
 ?>
