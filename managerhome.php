@@ -47,7 +47,7 @@
 	<div class="sidebar">
 		<h3>Dashboard</h3>
 		<ul>
-			<li><a href="stock_register.php">Stock Register</a></li>
+			<li><a href="inventoryregister.php">Stock Register</a></li>
 			<li><a href="reports.php">Reports</a></li>
 			<li><a href="order_stock.php">Order Stock</a></li>
 		</ul>

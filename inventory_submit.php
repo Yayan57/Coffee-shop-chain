@@ -23,30 +23,48 @@ $productid = mysqli_real_escape_string($con, $_POST['productid']);
 $item_name = mysqli_real_escape_string($con, $_POST['item_name']);
 $price = mysqli_real_escape_string($con, $_POST['price']);
 $quantity = mysqli_real_escape_string($con, $_POST['quantity']);
+$branchnum = mysqli_real_escape_string($con, $_POST['branchnum']);
 
-
-
-// Check if item already exists
-$sql = "SELECT * FROM inventory WHERE productid = '$productid'";
-$result = $con->query($sql);
-
-if ($result->num_rows > 0) {
-	// Item already exists, update quantity
-	$sql = "UPDATE inventory SET quantity = quantity + '$quantity' WHERE productid = '$productid'";
-	if ($con->query($sql) === TRUE)
-	header("Location: inventoryregister.php");
-	exit();
+// Check if delete button was clicked
+if(isset($_POST['delete'])) {
+    // Delete quantity
+    $sql = "UPDATE inventory SET quantity = quantity - '$quantity' WHERE productid = '$productid'";
+    if ($con->query($sql) === TRUE) {
+        header("Location: inventoryregister.php");
+        exit();
+    } else {
+        $error = "Error: " . $sql . "<br>" . $con->error;
+        header("Location: inventoryregister.php?error=$error");
+        exit();
+    }
 } else {
-// Item does not exist, add new item
-$sql = "INSERT INTO inventory (productid, item_name, price, quantity) VALUES ('$productid', '$item_name', '$price', '$quantity')";
-if ($con->query($sql) === TRUE) {
-	header("Location: inventoryregister.php");
-	exit();
-} else {
-	$error = "Error: " . $sql . "<br>" . $con->error;
-	header("Location: inventoryregister.php?error=$error");
-	exit();
-}
+    // Check if item already exists
+    $sql = "SELECT * FROM inventory WHERE productid = '$productid'";
+    $result = $con->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Item already exists, update quantity
+        $sql = "UPDATE inventory SET quantity = quantity + '$quantity' WHERE productid = '$productid'";
+        if ($con->query($sql) === TRUE) {
+            header("Location: inventoryregister.php");
+            exit();
+        } else {
+            $error = "Error: " . $sql . "<br>" . $con->error;
+            header("Location: inventoryregister.php?error=$error");
+            exit();
+        }
+    } else {
+        // Item does not exist, add new item
+        $sql = "INSERT INTO inventory (productid, item_name, price, quantity, branchnum) VALUES ('$productid', '$item_name', '$price', '$quantity', '$branchnum')";
+        if ($con->query($sql) === TRUE) {
+            header("Location: inventoryregister.php");
+            exit();
+        } else {
+            $error = "Error: " . $sql . "<br>" . $con->error;
+            header("Location: inventoryregister.php?error=$error");
+            exit();
+        }
+    }
 }
 
 $con->close();

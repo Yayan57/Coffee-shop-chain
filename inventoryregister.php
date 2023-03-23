@@ -39,7 +39,12 @@
 		<input type="number" name="price" id="price" step="0.01" min="0" required><br>
 		<label for="quantity">Quantity:</label>
 		<input type="number" name="quantity" id="quantity" min="0" required><br>
+		<label for="branchnum">Branch Number:</label>
+		<input type="text" name="branchnum" id="branchnum" pattern="[0-9]{3}" title="Please enter a 3-digit number." required><br>
+
 		<input type="submit" value="Add Item">
+		<input type="submit" value="Delete Item" name="delete">
+
 	</form>
 	<?php if(isset($_GET['error'])) { ?>
 		<p class="error"><?php echo $_GET['error']; ?></p>
