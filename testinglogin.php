@@ -1,56 +1,76 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Employee Login</title>
-</head>
-<body>
-	<h2>Employee Login</h2>
-	<form method="post" action="testlogin.php">
-		<label>Username:</label><br>
-		<input type="text" name="username"><br><br>
-		<label>Password:</label><br>
-		<input type="password" name="password"><br><br>
-		<label>Branch Number:</label><br>
-		<input type="text" name="bran_num"><br><br>
-		<input type="submit" value="Login">
-	</form>
-</body>
+  <head>
+    <title>Employee Login</title>
+  </head>
+  <body>
+    <div class="login">
+      <h2>Employee Login</h2>
+      <!-- form to take employee id and password input -->
+      <form method="post" action="testinglogin.php">
+        <label>Employee ID:</label>
+        <input type="text" name="employeeid" required>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <input type="submit" name="submit" value="Login">
+      </form>
+    </div>
+  </body>
 </html>
 
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// start the session
 session_start();
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-   // db connections
-    $servername = "coffee-shop.mysql.database.azure.com";
-    $username = "group9";
-    $password = "Databases9!";
-    $dbname = "pointofsales";
 
-    $con = mysqli_init();
-    mysqli_ssl_set($con, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
-    mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+// establish database connection
+$servername = "coffee-shop.mysql.database.azure.com";
+$username = "group9";
+$password = "Databases9!";
+$dbname = "pointofsales";
+
+// create a new mysqli object and configure it for SSL
+$con = mysqli_init();
+mysqli_ssl_set($con, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+
+// check for connection errors and exit if there are any
 if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
 
-   // Get username, password, and branch number from POST data
-   $username = mysqli_real_escape_string($db,$_POST['username']);
-   $password = mysqli_real_escape_string($db,$_POST['password']);
-   $bran_num = mysqli_real_escape_string($db,$_POST['bran_num']);
+// check if the form was submitted
+if (isset($_POST['submit'])) {
+  // get the employee id and password from the form
+  $employeeid = $_POST['employeeid'];
+  $password = $_POST['password'];
 
-   // Query the employee table for a matching username, password, and branch number
-   $sql = "SELECT * FROM employee WHERE username = '$username' AND password = '$password' AND bran_num = '$bran_num'";
-   $result = mysqli_query($db,$sql);
-   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  // prepare the SQL query to retrieve employee data for the given id and password
+  $sql = "SELECT * FROM employee WHERE id='$employeeid' AND password='$password'";
 
-   // If a matching record is found, set session variables and redirect to employee home page
-   $count = mysqli_num_rows($result);
-   if($count == 1) {
-      $_SESSION['login_user'] = $username;
-      $_SESSION['bran_num'] = $bran_num;
-      header("location: employeehome.php");
-   } else {
-      $error = "Invalid login credentials.";
-   }
+  // execute the query and store the result in $result
+  $result = mysqli_query($con, $sql);
+
+  // if there is only one row in the result set, it means the employee id and password combination is valid
+  if (mysqli_num_rows($result) == 1) {
+    // fetch the branch number from the query result
+    $row = mysqli_fetch_assoc($result);
+    $branch = $row['branch_number'];
+
+    // set the employee id and branch number in the session variables
+    $_SESSION['employeeid'] = $employeeid;
+    $_SESSION['branch'] = $branch;
+
+    // redirect the user to the employee home page
+    header("Location: employeehome.php");
+  } else {
+    // display an error message if the login credentials are invalid
+    echo "<p>Invalid login credentials. Please try again.</p>";
+  }
 }
+
+// close the database connection
+mysqli_close($con);
 ?>
