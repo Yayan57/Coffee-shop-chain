@@ -1,10 +1,11 @@
 <?php 
   include('includes/header.php');
 
-  function Print_Stock(){
-    echo "stock item";
-    echo $item_amount
-}
+  $servername = "coffee-shop.mysql.database.azure.com";
+  $username = "group9";
+  $password = "Databases9";
+  $dbname = "pointofsales";
+
 ?>
 
 <div>
