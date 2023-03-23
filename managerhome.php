@@ -1,57 +1,74 @@
-<?php 
-  include('includes/managerheader.php');
+<?php
+session_start();
+
+include('includes/managerheader.php');
+
+// db connections
+$servername = "coffee-shop.mysql.database.azure.com";
+$username = "group9";
+$password = "Databases9!";
+$dbname = "pointofsales";
+
+// Create connection
+$con = mysqli_init();
+mysqli_ssl_set($con, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+
+// Check connection
+if ($con->connect_error) {
+  die("Connection failed: " . $con->connect_error);
+}
+
+// Get manager's branch number
+$managerid = $_SESSION['managerid'];
+$sql = "SELECT managesbranch FROM managers WHERE managerid = $managerid";
+$result = mysqli_query($con, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+  // Manager found, get their branch number
+  $row = mysqli_fetch_assoc($result);
+  $branchnum = $row["managesbranch"];
+
+  // Display messages for manager's branch 
+  $sql = "SELECT * FROM messages WHERE branchno = $branchnum ORDER BY timestamp DESC";
+  $result = mysqli_query($con, $sql);
+
+  if (mysqli_num_rows($result) > 0) {
+    echo "<table>";
+    echo "<tr><th>Recipient</th><th>Message Text</th><th>Timestamp</th></tr>";
+    while($row = mysqli_fetch_assoc($result)) {
+      echo "<tr><td>" . $row["recipient"] . "</td><td>" . $row["message_text"] . "</td><td>" . $row["timestamp"] . "</td></tr>";
+    }
+    echo "</table>";
+  } else {
+    echo "No messages found for your branch.";
+  }
+} else {
+  echo "Manager not found.";
+}
+
+mysqli_close($con); // closing connection
 ?>
+<style>
+  /* Basic table styling */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Manager Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-    <style>
-        .sidebar {
-	background-color: #f0f0f0;
-	padding: 20px;
-	width: 200px;
-	float: left;
-	height: 100%;
-    }
-    .sidebar h3 {
-        margin-top: 0;
-    }
-    .sidebar ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-    .sidebar li {
-        margin-bottom: 10px;
-    }
-    .sidebar a {
-        display: block;
-        padding: 10px;
-        background-color: #ccc;
-        color: #000;
-        text-decoration: none;
-    }
-    .sidebar a:hover {
-        background-color: #555;
-        color: #fff;
-    }
-    .main-content {
-        margin-left: 220px;
-        padding: 20px;
-    }
-    </style>
-</head>
-<body>
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
 
+  th {
+    background-color: #f2f2f2;
+  }
 
-	<div class="main-content">
-		<h1>Welcome to the Manager Dashboard</h1>
-		<p>Please select an option from the sidebar.</p>
-	</div>
-</body>
-</html>
-<?php 
-  include('includes/footer.php');
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  </style>
+<?php
+include('includes/footer.php');
 ?>
