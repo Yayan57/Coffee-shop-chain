@@ -5,8 +5,8 @@
 session_start();
 
 //check if the employee is logged in
-if (!isset($_SESSION['employeeid'])) {
-    header("Location: testinglogin.php");
+if (!isset($_SESSION['employee_id'])) {
+    header("Location: login.php");
     exit();
 }
 
