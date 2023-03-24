@@ -19,17 +19,16 @@ if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
 
-// Get manager's branch number
+// Get manager branch no
 $managerid = $_SESSION['managerid'];
 $sql = "SELECT managesbranch FROM managers WHERE managerid = $managerid";
 $result = mysqli_query($con, $sql);
 
 if (mysqli_num_rows($result) > 0) {
-  // Manager found, get their branch number
   $row = mysqli_fetch_assoc($result);
   $branchnum = $row["managesbranch"];
 
-  // Display messages for manager's branch 
+  // Display messages for manager 
   $sql = "SELECT * FROM messages WHERE branchno = $branchnum ORDER BY timestamp DESC";
   $result = mysqli_query($con, $sql);
 
@@ -50,7 +49,6 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($con); // closing connection
 ?>
 <style>
-  /* Basic table styling */
   table {
     border-collapse: collapse;
     width: 100%;

@@ -1,6 +1,6 @@
 <?php
-session_start();
-session_destroy();
-header("Location: landing.php");
-exit();
+    session_start();
+    session_destroy();
+    header("Location: landing.php");
+    exit();
 ?>
