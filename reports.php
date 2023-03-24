@@ -126,7 +126,7 @@
 		mysqli_close($conn);
 	?>
 </body>
-</html
+</html>
 
 <?php 
   include('includes/footer.php');
