@@ -1,49 +1,51 @@
 <?php 
   include('includes/header.php');
 
-  $servername = "coffee-shop.mysql.database.azure.com";
-  $username = "group9";
-  $password = "Databases9";
-  $dbname = "pointofsales";
 
-  function Print_Stock(){
-    echo "stock item";
-    echo $item_amount
 }
 ?>
 
 <div>
-<h1>
-    Inventory Stock
-</h1>
-    <a href = "#stock"> table containing stock </a>
-    <?php 
-    $db = mysqli_connect($servername, $username, $password, $dbname);
+  <h1>Inventory Stock</h1>
+  <?php 
+    // db connections
+    $servername = "coffee-shop.mysql.database.azure.com";
+    $username = "group9";
+    $password = "Databases9!";
+    $dbname = "pointofsales";
 
-// Check connection
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-// Retrieve stock information
-$sql = "SELECT * FROM stock";
-$result = mysqli_query($db, $sql);
-
-// Display stock information
-if (mysqli_num_rows($result) > 0) {
-    while($row = mysqli_fetch_assoc($result)) {
-        echo "<p>" . $row["name"] . " - " . $row["quantity"] . " available - <a href='order.php?id=" . $row["id"] . "'>Order Now</a></p>";
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
     }
-} else {
-    echo "No stock available";
-}
 
-mysqli_close($db);
-    ?>
+    // Retrieve stock information
+    $productid = mysqli_real_escape_string($conn, $_POST['productid']);
+    $item_name = mysqli_real_escape_string($conn, $_POST['item_name']);
+    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
+    $branchnum = mysqli_real_escape_string($conn, $_POST['branchnum']);
+
+    // Prepare and execute the SQL query
+    $stmt = $conn->prepare("SELECT * FROM stock WHERE item_name = ?");
+    $stmt->bind_param("s", $item_name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Display stock information
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "<p>" . $row["item_name"] . " - " . $row["quantity"] . " available - <a href='order.php?id=" . $row["productid"] . "'>Order Now</a></p>";
+        }
+    } else {
+        echo "No stock available";
+    }
+
+    mysqli_close($conn);
+  ?>
 </div>
 
-
- 
 <?php 
   include('includes/footer.php');
 ?>
