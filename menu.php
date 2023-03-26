@@ -164,15 +164,26 @@
                     </select>
                     <button onclick="displaySelectedValue('snack-dropdown')">Add to cart</button>
                 </ul>
-            </section>
-        </main>
     </div>
     <div class = "right-section">
         <main>
+        <h4>Select store: </h4>
+        <label for="loc-dropdown"></label>
+                    <select id="loc-dropdown">
+                        <option value="1">Location 1</option>
+                        <option value="2">Location 2</option>
+                    </select>
+                    <button onclick="displaySelectedValue('loc-dropdown')">Confirm</button>
+            </section>
+        </main>
             <h2>Cart</h2>
             <div id = "output-area"> </div>
-            <h3>Total: </h3>
+            <h3>Order details: </h3>
+            <h4>Total:</h4>
             <div id = "output-area-2"></div>
+            <h4>Location:</h4>
+
+            <button>Place Order</button>
         </main>
     </div>
     </div>
