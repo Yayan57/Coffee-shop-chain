@@ -37,7 +37,7 @@
         echo "<td>".$row['item_name']."</td>";
         echo "<td>".$row['price']."</td>";
         echo "<td>".$row['quantity']."</td>";
-        echo "<td><input type='number' name='order_quantity' value='1' min='1' max='".$row['quantity']."'></td>";
+        echo "<td><input type='number' name='quantity' value='1' min='1' max='".$row['quantity']."'></td>";
         echo "<td><input type='hidden' name='product_id' value='".$row['product_id']."'><input type='submit' name='order_button' value='Order'></td>";
         echo "</tr>";
         echo "</form>";
@@ -50,7 +50,7 @@
     // Process orders
     if (isset($_POST['order_button'])) {
       $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
-      $order_quantity = mysqli_real_escape_string($conn, $_POST['order_quantity']);
+      $order_quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
 
       // Check if there is enough stock
       $sql = "SELECT quantity FROM stock WHERE product_id='$product_id'";
