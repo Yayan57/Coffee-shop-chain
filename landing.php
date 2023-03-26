@@ -2,6 +2,9 @@
   session_start();
   if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
     include('includes/headeruser.php');    
+  }
+  else if(isset($_SESSION['type']) and $_SESSION['type'] == "employee"){
+    include('includes/employeeheader.php');    
   }else{
     include('includes/header.php');
   } 
