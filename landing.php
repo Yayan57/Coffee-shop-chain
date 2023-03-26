@@ -1,5 +1,10 @@
 <?php 
-  include('includes/header.php');
+  session_start();
+  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+    include('includes/headeruser.php');    
+  }else{
+    include('includes/header.php');
+  } 
 ?>
 
 <html>

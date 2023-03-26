@@ -57,7 +57,21 @@
             $message= "Account successfully created";
             header('Location:landing.php');
         } else {
-            $message= "Error updating record: " . $con->error;
+            if(str_contains($con->error,"id")){
+                $message = "The entered ID is not valid. Please enter a valid ID.";
+            }
+            else if(str_contains($con->error,"username")){
+                $message = "The entered username is not valid. Please enter a valid username.";
+            }
+            else if(str_contains($con->error,"password")){
+                $message = "The entered password is not valid. The password must be at least 7 characters.";
+            }
+            else if(str_contains($con->error,"bran_num")){
+                $message = "The entered branch number is not valid. Please enter a valid branch number.";
+            }
+            else{
+                $message= "Something went wrong. Please try again.";
+            }
         //header('Location:update.php');
         }
       
