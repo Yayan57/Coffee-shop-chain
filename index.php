@@ -30,8 +30,3 @@
 	mysqli_close($conn);
 ?>
 
-
-<?php 
-  include('landing.php');
-?>
-
