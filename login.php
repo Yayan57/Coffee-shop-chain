@@ -1,8 +1,6 @@
 <?php 
   include('includes/header.php');
-?>
 
-<?php
     session_start();
     $message='';
 
@@ -66,10 +64,10 @@
             if(isset($_SESSION['username']))
             {
                 if(!empty($_POST["emp"])){
-                    header('Location:employeehome.php');
+                    header('Location: employeehome.php');
                 }
                 if(!empty($_POST['customer'])){
-                    header('Location:landing.php');
+                    header('Location: landing.php');
                 }
             }
         }
