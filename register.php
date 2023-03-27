@@ -1,9 +1,8 @@
-<?php 
-  include('includes/header.php');
-?>
-
 <?php
     session_start();
+
+  include('includes/header.php');
+
     //Initializes MySQLi
     $host = 'coffee-shop.mysql.database.azure.com';
     $username = 'group9';

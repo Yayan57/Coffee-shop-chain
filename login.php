@@ -67,7 +67,7 @@
                     header('Location: employeehome.php');
                 }
                 if(!empty($_POST['customer'])){
-                    header('Location: landing.php');
+                    //header('Location: landing.php');
                 }
             }
         }
