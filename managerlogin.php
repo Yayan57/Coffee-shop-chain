@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Manager Login</title>
-  </head>
-  <body>
-    <div class="login">
-      <h2>Manager Login</h2>
-      <form method="post" action="managerlogin.php">
-        <label>Manager ID:</label>
-        <input type="text" name="managerid" required>
-        <label>Password:</label>
-        <input type="password" name="password" required>
-        <input type="submit" name="submit" value="Login">
-      </form>
-    </div>
-  </body>
-</html>
-
 <?php
 session_start();
 
@@ -50,3 +31,22 @@ if (isset($_POST['submit'])) {
 
 mysqli_close($con);
 ?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Manager Login</title>
+  </head>
+  <body>
+    <div class="login">
+      <h2>Manager Login</h2>
+      <form method="post" action="managerlogin.php">
+        <label>Manager ID:</label>
+        <input type="text" name="managerid" required>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <input type="submit" name="submit" value="Login">
+      </form>
+    </div>
+  </body>
+</html>

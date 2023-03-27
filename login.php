@@ -114,27 +114,6 @@
     </body>
 </html>
 
-<script>
-
-let empCheck = Array.from(document.getElementsByName('emp'))
-let custCheck = document.getElementById('customer')
-    
-empCheck.forEach(element => {
-    element.onchange = () => {
-        if (element.checked) {
-            custCheck.checked = false;
-        }
-    }
-})
-    
-custCheck.onchange = () => {
-    if (custCheck.checked) {
-        empCheck.forEach(element => {
-            element.checked = false;
-        })
-    }
-}
-</script>
 
 
 
