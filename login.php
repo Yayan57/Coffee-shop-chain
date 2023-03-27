@@ -1,9 +1,7 @@
 <?php 
   include('includes/header.php');
-?>
 
-<?php
-    session_start();
+  session_start();
     $message='';
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -66,10 +64,10 @@
             if(isset($_SESSION['username']))
             {
                 if(!empty($_POST["emp"])){
-                    header('Location:employeehome.php');
+                    header('Location: employeehome.php');
                 }
                 if(!empty($_POST['customer'])){
-                    header('Location:https://coffee-shop.azurewebsites.net/landing.php');
+                    header('Location: landing.php');
                 }
             }
         }
