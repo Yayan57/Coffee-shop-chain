@@ -1,7 +1,7 @@
 <?php 
+  session_start();
   include('includes/header.php');
 
-  session_start();
     $message='';
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
