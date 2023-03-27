@@ -1,6 +1,8 @@
 <?php 
   include('includes/header.php');
+?>
 
+<?php
     session_start();
     $message='';
 
@@ -64,10 +66,10 @@
             if(isset($_SESSION['username']))
             {
                 if(!empty($_POST["emp"])){
-                    header('Location: employeehome.php');
+                    header('Location:employeehome.php');
                 }
                 if(!empty($_POST['customer'])){
-                    header('Location: landing.php');
+                    header('Location:https://coffee-shop.azurewebsites.net/landing.php');
                 }
             }
         }
@@ -112,6 +114,27 @@
     </body>
 </html>
 
+<script>
+
+let empCheck = Array.from(document.getElementsByName('emp'))
+let custCheck = document.getElementById('customer')
+    
+empCheck.forEach(element => {
+    element.onchange = () => {
+        if (element.checked) {
+            custCheck.checked = false;
+        }
+    }
+})
+    
+custCheck.onchange = () => {
+    if (custCheck.checked) {
+        empCheck.forEach(element => {
+            element.checked = false;
+        })
+    }
+}
+</script>
 
 
 
