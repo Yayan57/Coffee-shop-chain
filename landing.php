@@ -27,20 +27,6 @@
   </div>
 </html>
 
-<?php
-//THIS CHECKS IF USER IS LOGGED OUT, DELETE BEFORE DEPLOYMENT
-// Start session
-session_start();
-
-// Check if user is logged in
-if (isset($_SESSION['username'])) {
-    // User is still logged in, logout process failed
-    echo "Logout process failed";
-} else {
-    // User is logged out, logout process successful
-    echo "Logout process successful";
-}
-?>
 
 <?php 
   include('includes/mfooter.php');
