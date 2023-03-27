@@ -69,7 +69,7 @@
                     header('Location:employeehome.php');
                 }
                 if(!empty($_POST['customer'])){
-                    header('Location:landing.php');
+                    header('Location:https://coffee-shop.azurewebsites.net/landing.php');
                 }
             }
         }
