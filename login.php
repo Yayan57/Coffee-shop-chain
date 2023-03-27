@@ -69,7 +69,7 @@
                     header('Location:employeehome.php');
                 }
                 if(!empty($_POST['customer'])){
-                    header('Location:landing.php');
+                    header('Location:https://coffee-shop.azurewebsites.net/landing.php');
                 }
             }
         }
@@ -114,3 +114,30 @@
     </body>
 </html>
 
+<script>
+
+let empCheck = Array.from(document.getElementsByName('emp'))
+let custCheck = document.getElementById('customer')
+    
+empCheck.forEach(element => {
+    element.onchange = () => {
+        if (element.checked) {
+            custCheck.checked = false;
+        }
+    }
+})
+    
+custCheck.onchange = () => {
+    if (custCheck.checked) {
+        empCheck.forEach(element => {
+            element.checked = false;
+        })
+    }
+}
+</script>
+
+
+
+<?php 
+  include('includes/footer.php');
+?>
