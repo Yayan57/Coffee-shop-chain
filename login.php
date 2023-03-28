@@ -91,7 +91,6 @@ if(!isset($_SESSION)){
     <body>
         <form name = "login_form" method="post" action="login.php">
         <div class = "center">
-            <div><?php if (!empty($message)){ echo $message;}?></div>
             <h1>Welcome</h1>
             <label for = 'username'>Username</label>
             <input type="text" name="username">
