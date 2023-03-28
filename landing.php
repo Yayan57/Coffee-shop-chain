@@ -2,14 +2,14 @@
   if(!isset($_SESSION)){
     session_start();
 }
-  /*if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
     include('includes/headeruser.php');
   }
   else if(isset($_SESSION['type']) and $_SESSION['type'] == "employee"){
     include('includes/employeeheader.php');    
-  }else{*/
+  }else{
     include('includes/header.php');
-  //} 
+  } 
 ?>
 
 <html>
