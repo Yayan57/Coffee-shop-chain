@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="style.css">
 </head>
-
+<body>
 <footer class="footer">
     <div class="footer-content">
         <h3>Bean Me Up</h3>

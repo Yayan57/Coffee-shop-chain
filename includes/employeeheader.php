@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="style.css">
 </head>
-
+<body>
 <header class="header">
   <a href="#default" class="title">Bean Me Up</a>
   <div class="hright">
