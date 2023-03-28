@@ -49,7 +49,6 @@
         }else{
         include('includes/header.php');
     }
-    include('includes/footer.php');
  
     
 ?>
@@ -85,3 +84,8 @@
         </form>
     </body>
 </html>
+
+
+<?php 
+  include('includes/footer.php');
+?>
