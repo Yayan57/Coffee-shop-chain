@@ -1,6 +1,3 @@
-<?php 
-  include('includes/employeeheader.php');
-?>
 <?php
 session_start();
 
@@ -34,6 +31,7 @@ $sql = "SELECT * FROM transaction_details td
         ORDER BY td.date DESC, td.time DESC";
 
 $result = mysqli_query($con, $sql);
+include('includes/employeeheader.php');
 
 ?>
 
