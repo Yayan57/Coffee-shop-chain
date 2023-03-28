@@ -2,7 +2,6 @@
 if(!isset($_SESSION)){
     session_start();
 }
-  //include('includes/header.php');
 
     $message='';
 
@@ -79,6 +78,8 @@ if(!isset($_SESSION)){
                 $message = "Select type of Log In";
             }
         }
+
+        include('includes/header.php');
 ?>
 
 <html>
