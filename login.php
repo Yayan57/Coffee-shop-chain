@@ -80,6 +80,7 @@ if(!isset($_SESSION)){
         }
 
         include('includes/header.php');
+        include('includes/footer.php');
 ?>
 
 <html>

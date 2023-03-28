@@ -1,17 +1,6 @@
 <?php 
     session_start();
-    if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
-    include('includes/headeruser.php');    
-    }
-    else if(isset($_SESSION['type']) and $_SESSION['type'] == "employee"){
-    include('includes/employeeheader.php');    
-    }else{
-    include('includes/header.php');
-    }
-?>
 
-
-<?php
         //Initializes MySQLi
     $host = 'coffee-shop.mysql.database.azure.com';
     $username = 'group9';
@@ -52,7 +41,15 @@
     }
 
 
-    
+    if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+        include('includes/headeruser.php');    
+        }
+        else if(isset($_SESSION['type']) and $_SESSION['type'] == "employee"){
+        include('includes/employeeheader.php');    
+        }else{
+        include('includes/header.php');
+    }
+    include('includes/footer.php');
  
     
 ?>
@@ -88,8 +85,3 @@
         </form>
     </body>
 </html>
-
-
-<?php 
-  include('includes/footer.php');
-?>
