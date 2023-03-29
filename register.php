@@ -72,12 +72,12 @@
             else{
                 $message= "Something went wrong. Please try again.";
             }
-        //header('Location:update.php');
         }
       
         $con->close();
     }
     }
+    include('includes/header.php');
     
 ?>
 

@@ -17,8 +17,6 @@ if(!isset($_SESSION)){
         //Initializes MySQLi
         $con = mysqli_init();
 
-        //mysqli_ssl_set($conn,NULL,NULL, "/var/www/html/DigiCertGlobalRootG2.crt.pem", NULL, NULL);
-
         // Establish the connection
         mysqli_real_connect($con, $host, $username, $password, $db_name, 3306, NULL, MYSQLI_CLIENT_SSL);
 
@@ -80,7 +78,7 @@ if(!isset($_SESSION)){
         }
 
         include('includes/header.php');
-        include('includes/footer.php');
+        
 ?>
 
 <html>
