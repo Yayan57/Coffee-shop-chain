@@ -1,0 +1,88 @@
+/*html, body {
+  margin: 0;
+  padding: 0;
+} 
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}*/
+
+.background { 
+	background-color:rgb(0, 0, 0);
+	height:auto;
+}
+
+.backimg { 
+  max-width:100%;
+	height: auto;
+  margin: auto;
+  object-fit: cover;
+	left:0px;
+	top:0px;
+	background-image:url(assets/coback.jpeg);
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+
+/* button for menu */
+.button-1 {
+    width: 100%;
+    appearance: button;
+    background-color: rgb(81, 81, 81);
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round,sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin: 0;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.button-1:after {
+  background-clip: padding-box;
+  background-color: rgb(94, 93, 93);
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  bottom: -4px;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.button-1:main,
+.button:focus {
+  user-select: auto;
+}
+
+.button-1:hover:not(:disabled) {
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
+
+.button-1:disabled {
+  cursor: auto;
+}

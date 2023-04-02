@@ -1,3 +1,14 @@
+/*html, body {
+  margin: 0;
+  padding: 0;
+} 
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}*/
+
 /* Style the header with a grey background and some padding */
 header {
   font-family: "Open Sans";
@@ -105,4 +116,9 @@ header {
   text-transform: uppercase;
   opacity: .9;
   font-weight: 200;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }

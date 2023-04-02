@@ -1,3 +1,12 @@
+<?php 
+  session_start();
+  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+    include('includes/headeruser.php');    
+  }else{
+    include('includes/header.php');
+  } 
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +55,8 @@
         total = total - num;
         var totalstrng = "$"+totaloutput+"0"
         var totalstring = document.getElementById("output-area-2");
-        totalstring.innerHTML = "$"+total+".0";
+        totalstring.innerHTML = "$"+total;
+        removeSelection();
         };
         newOutput.appendChild(removeButton);
         output.appendChild(newOutput);
@@ -54,6 +64,30 @@
         var totalstring = document.getElementById("output-area-2");
         totalstring.innerHTML = "$"+total;
       }
+
+    var selections = [];
+    function storeSelection() {
+        var dropdown = document.getElementById("myDropdown");
+        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
+        selections.push(selectedOption);
+        var outputElement = document.getElementById("selectionsOutput");
+        outputElement.innerHTML = selections.join(", ");
+        }
+
+    function removeSelection() {
+        var dropdown = document.getElementById("myDropdown");
+        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
+        var index = selections.indexOf(selectedOption);
+        if (index > -1) {
+            selections.splice(index, 1);
+        }
+        var outputElement = document.getElementById("selectionsOutput");
+        outputElement.innerHTML = selections.join(", ");
+        }
+    
+    function placeOrder(){
+        
+    }
     </script>
 </head>
 <body>
@@ -103,7 +137,7 @@
                             <option value="Mocha: Medium - $6.00">Medium - $6.00</option>
                             <option value="Mocha: Large - $7.00">Large - $7.00</option>
                         </select>
-                        <button onclick="displaySelectedValue('mocha-dropdown')">Add to cart</button>
+                        <button onclick="displaySelectedValue('mocha-dropdown');storeSelection()">Add to cart</button>
                 </ul>
             </section>
             <section>
@@ -155,17 +189,39 @@
                     </select>
                     <button onclick="displaySelectedValue('snack-dropdown')">Add to cart</button>
                 </ul>
-            </section>
-        </main>
     </div>
     <div class = "right-section">
         <main>
+        <h4>Select store: </h4>
+        <label for="loc-dropdown"></label>
+                    <select id="loc-dropdown">
+                        <option value="1">Location 1</option>
+                        <option value="2">Location 2</option>
+                    </select>
+                    <button onclick="displaylocation('loc-dropdown')">Confirm</button>
+                    
+                    <script>
+                    function displaylocation() {
+                        var dropdown = document.getElementById("loc-dropdown");
+                        var selectedValue = dropdown.options[dropdown.selectedIndex].text;
+                        document.getElementById("selectedValue").innerHTML = selectedValue;
+                    }
+                    </script>
+            </section>
+        </main>
             <h2>Cart</h2>
             <div id = "output-area"> </div>
-            <h3>Total: </h3>
+            <h3>Order details: </h3>
+            <h4>Total:</h4>
             <div id = "output-area-2"></div>
+            <h4>Location:</h4><p id="selectedValue"></p>
+            <button>Place Order</button>
         </main>
     </div>
     </div>
 </body>
 </html>
+
+<?php 
+  include('includes/footer.php');
+?>
