@@ -34,60 +34,51 @@
       }
     </style>
     <script>
-      // This JavaScript code gets the selected dropdown value and appends it to the output area
+    //gets the selected dropdown value and appends it to the output area
       var total  = 0;
+      var cart = [];
       function displaySelectedValue(dropdownId) {
+    //get value from dropdown
         var dropdown = document.getElementById(dropdownId);
         var output = document.getElementById("output-area");
         var totaloutput = document.getElementById("output-area");
+    //store value in array
         var selectedValue = dropdown.value;
+        cart.push(selectedValue);
+    //update price
         var num = Number(selectedValue.match(/\d+\.\d+$/)[0]);
         total = total + num;
+    //ouput item mto cart
         var newOutput = document.createElement("div");
         newOutput.className = "output-item";
         newOutput.innerHTML = selectedValue + " ";
+    //'remove' button
         var removeButton = document.createElement("button");
         removeButton.className = "remove-button";
         removeButton.innerHTML = "Remove";
         removeButton.onclick = function() {
-        newOutput.parentNode.removeChild(newOutput);
-        removeButton.parentNode.removeChild(removeButton);
-        total = total - num;
-        var totalstrng = "$"+totaloutput+"0"
-        var totalstring = document.getElementById("output-area-2");
-        totalstring.innerHTML = "$"+total;
-        removeSelection();
+        //remove 'remove' button
+            newOutput.parentNode.removeChild(newOutput);
+            removeButton.parentNode.removeChild(removeButton);
+        //update price
+            total = total - num;
+            var totalstrng = "$"+totaloutput+"0"
+            var totalstring = document.getElementById("output-area-2");
+            totalstring.innerHTML = "$"+total;
+        //remove item from cart
+            var index = cart.indexOf(selectedOption);
+            if (index > -1) {
+                cart.splice(index, 1);
+            }    
         };
         newOutput.appendChild(removeButton);
         output.appendChild(newOutput);
+    //output price
         var totalstrng = "$"+totaloutput+"0"
         var totalstring = document.getElementById("output-area-2");
         totalstring.innerHTML = "$"+total;
       }
-
-    var selections = [];
-    function storeSelection() {
-        var dropdown = document.getElementById("myDropdown");
-        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
-        selections.push(selectedOption);
-        var outputElement = document.getElementById("selectionsOutput");
-        outputElement.innerHTML = selections.join(", ");
-        }
-
-    function removeSelection() {
-        var dropdown = document.getElementById("myDropdown");
-        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
-        var index = selections.indexOf(selectedOption);
-        if (index > -1) {
-            selections.splice(index, 1);
-        }
-        var outputElement = document.getElementById("selectionsOutput");
-        outputElement.innerHTML = selections.join(", ");
-        }
     
-    function placeOrder(){
-        
-    }
     </script>
 </head>
 <body>
