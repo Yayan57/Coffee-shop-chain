@@ -106,7 +106,6 @@
         var totalstring = document.getElementById("output-area-2");
         totalstring.innerHTML = "$"+total;
       }
-    
     </script>
 </head>
 <body>
@@ -220,10 +219,17 @@
                     <button onclick="displaylocation('loc-dropdown')">Confirm</button>
                     
                     <script>
+                    var locdropdown = document.getElementById("loc-dropdown");
+                    var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
                     function displaylocation() {
-                        var dropdown = document.getElementById("loc-dropdown");
-                        var selectedValue = dropdown.options[dropdown.selectedIndex].text;
+                        var locdropdown = document.getElementById("loc-dropdown");
+                        var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
                         document.getElementById("selectedValue").innerHTML = selectedValue;
+                    }
+                    function OrderCheck(){
+                        if(total < 1 && locdropdown == null) {alert("Select items and location");}
+                        else if(total > 0 && locdropdown == null){alert("Select location");}
+                        else if(total < 1 && locdropdown !== null){alert("Select items");}
                     }
                     </script>
             </section>
@@ -234,14 +240,12 @@
             <h4>Total:</h4>
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
-            <button>Place Order</button>
+            <button id = "placeOrder" onclick = "OrderCheck()">Place Order</button>
         </main>
     </div>
     </div>
 </body>
 </html>
-
-
 
 <?php 
   include('includes/footer.php');
