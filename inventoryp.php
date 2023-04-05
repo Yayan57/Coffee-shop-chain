@@ -12,19 +12,21 @@ if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
 
-// Prepare the SQL query to get the inventory
-$sql = "SELECT * FROM inventory WHERE branchnum = $branchnum";
+#setting the branch number of employee logged in
+$branch_number = $_SESSION['branch_number'];
 
-// If the search box is not empty, filter the results based on the search query
+//query
+$sql = "SELECT * FROM inventory WHERE branchnum = $branch_number";
+#for search box
 if (!empty($_POST['search'])) {
 	$search = $_POST['search'];
 	$sql .= " AND item_name LIKE '%$search%'";
 }
 
-// Execute the SQL query
+//exe the sql
 $result = $con->query($sql);
 
-// Display the results in the table
+//display
 if ($result->num_rows > 0) {
 	while($row = $result->fetch_assoc()) {
 		echo "<tr>";
@@ -38,6 +40,6 @@ if ($result->num_rows > 0) {
 	echo "<tr><td colspan='4'>No items found.</td></tr>";
 }
 
-// Close the database connection
+//Close the database connection
 $con->close();
 ?>
