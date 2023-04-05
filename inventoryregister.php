@@ -54,9 +54,9 @@
 		<input type="submit" value="Delete Item" name="delete">
 
 	</form>
-	<form>
-		<input type="submit" value="View Inventory">
-	</form>
+
+	<a href="#about" onclick="window.location.href = 'inventory.php';">View Inventory</a>
+	
 	<?php if(isset($_GET['error'])) { ?>
 		<p class="error"><?php echo $_GET['error']; ?></p>
 	<?php } ?>
