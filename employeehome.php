@@ -40,6 +40,44 @@ include('includes/employeeheader.php');
 <head>
     <title>Employee Home</title>
 </head>
+<style>
+    /* CSS for the inventory page */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+}
+
+th {
+  background-color: #ccc;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
 <body>
     <h1>Welcome, Employee!</h1>
     <p>Branch Number: <?php echo $branch_number; ?></p>
