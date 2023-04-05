@@ -6,34 +6,6 @@
     include('includes/header.php');
   } 
 ?>
-<?php
-
-    $servername = "coffee-shop.mysql.database.azure.com";
-    $username = "group9";
-    $password = "Databases9!";
-    $dbname = "pointofsales";
-
-    $conn = mysqli_init();
-    mysqli_ssl_set($conn, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
-    mysqli_real_connect($conn, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Get the value of the "fruits" array from the HTML form
-    $cart = isset($_POST['cart']) ? $_POST['cart'] : [];
-
-    // Loop through each fruit in the array
-    foreach ($cart as $item) {
-        $sql = "UPDATE inventory
-                SET quantity = quantity - 1
-                WHERE item_name LIKE CONCAT(TRIM(SUBSTRING_INDEX('$item', ':', 1)), ': ', 
-                    TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX('$item', ':', -1), ' - ', 1)));";
-        mysqli_query($conn, $sql);
-    }
-    // Close the database connection
-    $conn->close();
-?>
 
 <!DOCTYPE html>
 <html>
@@ -213,23 +185,26 @@
         <h4>Select store: </h4>
         <label for="loc-dropdown"></label>
                     <select id="loc-dropdown">
-                        <option value="1">Location 1</option>
-                        <option value="2">Location 2</option>
+                        <option value = 1>123 Main St, Houston, TX</option>
+                        <option value = 2>456 Elm St, Houston, TX</option>
+                        <option value = 3>789 Oak St, Houston, TX</option>
                     </select>
                     <button onclick="displaylocation('loc-dropdown')">Confirm</button>
                     
                     <script>
                     var locdropdown = document.getElementById("loc-dropdown");
                     var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
+                    var loc = false;
                     function displaylocation() {
                         var locdropdown = document.getElementById("loc-dropdown");
                         var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
+                        loc = true;
                         document.getElementById("selectedValue").innerHTML = selectedValue;
                     }
                     function OrderCheck(){
-                        if(total < 1 && locdropdown == null) {alert("Select items and location");}
-                        else if(total > 0 && locdropdown == null){alert("Select location");}
-                        else if(total < 1 && locdropdown !== null){alert("Select items");}
+                        if(total < 1 && loc == false) {alert("Select items and location");}
+                        else if(total > 1 && loc == false){alert("Select location");}
+                        else if(total < 1 && loc == true){alert("Select items");}
                     }
                     </script>
             </section>
@@ -240,12 +215,46 @@
             <h4>Total:</h4>
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
-            <button id = "placeOrder" onclick = "OrderCheck()">Place Order</button>
+            <input type = "submit" button id = "placeOrder" onclick = "OrderCheck(), PlaceOrder()">Place Order</button>
         </main>
     </div>
     </div>
 </body>
 </html>
+
+<?php
+
+    $servername = "coffee-shop.mysql.database.azure.com";
+    $username = "group9";
+    $password = "Databases9!";
+    $dbname = "pointofsales";
+
+    $conn = mysqli_init();
+    mysqli_ssl_set($conn, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+    mysqli_real_connect($conn, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    function PlaceOrder(){
+        global $conn;
+
+        $cart = isset($_POST['cart']) ? $_POST['cart'] : [];
+
+        foreach ($cart as $item) {
+            $sql = "UPDATE inventory
+                    SET quantity = quantity - 1
+                    WHERE item_name LIKE CONCAT(TRIM(SUBSTRING_INDEX('$item', ':', 1)), ': ', 
+                        TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX('$item', ':', -1), ' - ', 1)));";
+            mysqli_query($conn, $sql);
+        }
+    $conn->close();
+    }
+
+    if(isset($_POST['place_order'])){
+        placeOrder();
+    }
+
+?>
 
 <?php 
   include('includes/footer.php');
