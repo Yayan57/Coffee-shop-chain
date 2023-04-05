@@ -11,8 +11,6 @@ mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, MYSQ
 if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
-// Get the branch number of the person that is logged in
-$branchnum = 1; // Example value, change as needed
 
 // Prepare the SQL query to get the inventory
 $sql = "SELECT * FROM inventory WHERE branchnum = $branchnum";
