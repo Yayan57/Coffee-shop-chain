@@ -20,15 +20,16 @@
     if (!$conn) {
       die("Connection failed: " . mysqli_connect_error());
     }
-
+    $branch_number = $_SESSION['branch_number'];
     // Retrieve stock information
-    $sql = "SELECT product_id, item_name, price, quantity FROM stock";
-    $result = mysqli_query($conn, $sql);
+    $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number";
+    $result = $con->query($sql);
 
-    if (mysqli_num_rows($result) > 0) {
+
+    if ($result->num_rows > 0) {
       echo "<table>";
       echo "<tr><th>Product ID</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>Order Quantity</th><th></th></tr>";
-      while ($row = mysqli_fetch_assoc($result)) {
+      while ($row = $result->fetch_assoc()) {
         echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
         echo "<tr>";
         echo "<td>".$row['product_id']."</td>";
@@ -51,9 +52,8 @@
       $order_quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
 
       // Check if there is enough stock
-      $sql = "SELECT quantity FROM stock WHERE product_id='$product_id'";
-      $result = mysqli_query($conn, $sql);
-      $row = mysqli_fetch_assoc($result);
+      $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND product_id='$product_id'";
+      $row = $result->fetch_assoc();
       $available_quantity = $row['quantity'];
 
       if ($order_quantity > $available_quantity) {
@@ -71,20 +71,20 @@
     }
 
     // Check if inventory is low
-    $sql = "SELECT product_id, item_name, price, quantity FROM stock WHERE quantity < 10";
+    $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND quantity < 10";
     $result = mysqli_query($conn, $sql);
 
-    if (mysqli_num_rows($result) > 0) {
+    if ($result->num_rows > 0) {
       echo "<h2>Low Inventory</h2>";
       echo "<table>";
       echo "<tr><th>Product ID</th><th>Product Name</th><th>Price</th><th>Quantity</th><th></th></tr>";
-      while ($row = mysqli_fetch_assoc($result)) {
+      while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>".$row['$product_id']."</td>";
-		echo "<td>".$row['item_name']."</td>";
-		echo "<td>".$row['price']."</td>";
-		echo "<td>".$row['quantity']."</td>";
-		echo "</tr>";
+		    echo "<td>".$row['item_name']."</td>";
+		    echo "<td>".$row['price']."</td>";
+		    echo "<td>".$row['quantity']."</td>";
+		    echo "</tr>";
 		}
 		echo "</table>";
 		} else {
