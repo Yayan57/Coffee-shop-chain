@@ -75,10 +75,6 @@
 		echo "<p>No products with low inventory.</p>";
 		}
 		?>
-		
-		<?php 
-		  include('includes/footer.php');
-		?>
 
 
 <?php 
