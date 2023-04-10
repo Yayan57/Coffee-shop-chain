@@ -1,24 +1,20 @@
 <?php 
-  include('includes/header.php');
-
-?>
-
-<div>
-<h1>
-    Order Stock
-</h1>
-    <a href = "#stock"> table containing stock </a>
-    <?php 
+  //shows any errors on the script
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+ 
     // DB connection
     $servername = "coffee-shop.mysql.database.azure.com";
     $username = "group9";
     $password = "Databases9!";
     $dbname = "pointofsales";
 
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-    if (!$conn) {
-      die("Connection failed: " . mysqli_connect_error());
+    $con = mysqli_init();
+    mysqli_ssl_set($con, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+    mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+    if ($con->connect_error) {
+      die("Connection failed: " . $con->connect_error);
     }
     $branch_number = $_SESSION['branch_number'];
     // Retrieve stock information
@@ -48,8 +44,15 @@
 
     // Process orders
     if (isset($_POST['order_button'])) {
-      $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
-      $order_quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
+      $sql = "UPDATE inventory SET quantity = quantity + '$quantity' WHERE productid = '$productid'";
+    if ($con->query($sql) === TRUE) {
+        header("Location: stock.php");
+        exit();
+    } else {
+        $error = "Error: " . $sql . "<br>" . $con->error;
+        header("Location: stock.php?error=$error");
+        exit();
+    }
 
       // Check if there is enough stock
       $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND product_id='$product_id'";
@@ -81,10 +84,10 @@
       while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>".$row['$product_id']."</td>";
-		    echo "<td>".$row['item_name']."</td>";
-		    echo "<td>".$row['price']."</td>";
-		    echo "<td>".$row['quantity']."</td>";
-		    echo "</tr>";
+        echo "<td>".$row['item_name']."</td>";
+        echo "<td>".$row['price']."</td>";
+        echo "<td>".$row['quantity']."</td>";
+        echo "</tr>";
 		}
 		echo "</table>";
 		} else {
@@ -92,7 +95,86 @@
 		}
 		?>
 		
-		</div>
 		<?php 
 		  include('includes/footer.php');
 		?>
+
+<?php 
+	session_start();
+	if(isset($_SESSION['type']) and $_SESSION['type'] == "manager"){
+	include('includes/managerheader.php');    
+	}else{
+	include('includes/header.php');
+	}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inventory</title>
+</head>
+<style>
+    /* CSS for the inventory page */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+}
+
+th {
+  background-color: #ccc;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
+<body>
+	<h1>Inventory</h1>
+	<form method="post" action="inventory.php">
+		<label for="search">Search item:</label>
+		<input type="text" id="search" name="search">
+		<button type="submit">Search</button>
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th>Product ID</th>
+				<th>Item Name</th>
+				<th>Price</th>
+				<th>Quantity</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php include('inventoryp.php'); ?>
+		</tbody>
+	</table>
+</body>
+</html>
+
+
+<?php 
+  include('includes/footer.php');
+?>

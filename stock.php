@@ -3,8 +3,7 @@
 
 ?>
 
-<div>
-  <h1>Inventory Stock</h1>
+
   <?php 
     // db connections
     $servername = "coffee-shop.mysql.database.azure.com";
@@ -18,18 +17,16 @@
       die("Connection failed: " . $conn->connect_error);
     }
 
-    // Retrieve stock information
-    $productid = mysqli_real_escape_string($conn, $_POST['productid']);
-    $item_name = mysqli_real_escape_string($conn, $_POST['item_name']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
-    $quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
-    $branchnum = mysqli_real_escape_string($conn, $_POST['branchnum']);
+    #setting the branch number of employee logged in
+    $branch_number = $_SESSION['branch_number'];
 
-    // Prepare and execute the SQL query
-    $stmt = $conn->prepare("SELECT * FROM stock WHERE item_name = ?");
-    $stmt->bind_param("s", $item_name);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    //query
+    $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number";
+    #for search box
+    if (!empty($_POST['search'])) {
+      $search = $_POST['search'];
+      $sql .= " AND item_name LIKE '%$search%'";
+    }
 
     // Display stock information
     if ($result->num_rows > 0) {
@@ -42,8 +39,11 @@
 
     mysqli_close($conn);
   ?>
-</div>
+  
 
 <?php 
   include('includes/footer.php');
 ?>
+<div>
+  <h1>Inventory Stock</h1>
+</div>

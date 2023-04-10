@@ -3,6 +3,44 @@
 ?>
 
 <!DOCTYPE html>
+<style>
+    /* CSS for the inventory page */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+}
+
+th {
+  background-color: #ccc;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
 <html>
 <head>
 	<title>Popular Items Report</title>
@@ -75,8 +113,12 @@
 		<input type="date" name="start_date" required>
 		<label for="end_date">End Date:</label>
 		<input type="date" name="end_date" required>
+		<label for="sort_order">Sort by:</label>
+		<input type="checkbox" name="sort_order" value="asc">Ascending
+		<input type="checkbox" name="sort_order" value="desc">Descending
 		<input type="submit" value="Generate Report">
 	</form>
+
 
 	<?php
 		// checking form submission 
@@ -111,15 +153,41 @@
 			echo "<table><tr><th>Product ID</th><th>Item Name</th><th>Starting Quantity</th><th>Ending Quantity</th><th>Change</th></tr>";
 			$sql_inventory = "SELECT productid, item_name FROM inventory";
 			$result_inventory = mysqli_query($conn, $sql_inventory);
+			$inventory_data = array();
 			while ($row_inventory = mysqli_fetch_assoc($result_inventory)) {
 				$product_id = $row_inventory['productid'];
 				$item_name = $row_inventory['item_name'];
 				$start_quantity = isset($inventory_start[$product_id]) ? $inventory_start[$product_id] : 0;
 				$end_quantity = isset($inventory_end[$product_id]) ? $inventory_end[$product_id] : 0;
 				$change = $end_quantity - $start_quantity;
+				$inventory_data[] = array(
+					'product_id' => $product_id,
+					'item_name' => $item_name,
+					'start_quantity' => $start_quantity,
+					'end_quantity' => $end_quantity,
+					'change' => $change
+				);
+			}
+			if(isset($_POST['sort_order']) && !empty($_POST['sort_order'])) {
+				$sort_order = $_POST['sort_order'];
+				usort($inventory_data, function($a, $b) use ($sort_order) {
+					if ($sort_order == 'asc') {
+						return $a['change'] <=> $b['change'];
+					} else {
+						return $b['change'] <=> $a['change'];
+					}
+				});
+			}
+			foreach ($inventory_data as $row_inventory) {
+				$product_id = $row_inventory['product_id'];
+				$item_name = $row_inventory['item_name'];
+				$start_quantity = $row_inventory['start_quantity'];
+				$end_quantity = $row_inventory['end_quantity'];
+				$change = $row_inventory['change'];
 				echo "<tr><td>$product_id</td><td>$item_name</td><td>$start_quantity</td><td>$end_quantity</td><td>$change</td></tr>";
 			}
 			echo "</table>";
+
 		}
 
 		// closing db connection
