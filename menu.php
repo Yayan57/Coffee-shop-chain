@@ -215,7 +215,9 @@
             <h4>Total:</h4>
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
-            <input type = "submit" button id = "placeOrder" onclick = "OrderCheck(), PlaceOrder()">Place Order</button>
+            <form action="" method="post">
+                <input type = "submit" onclick = "OrderCheck(), PlaceOrder()">
+            </form>
         </main>
     </div>
     </div>
