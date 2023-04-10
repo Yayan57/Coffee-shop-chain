@@ -16,7 +16,10 @@
     if ($con->connect_error) {
       die("Connection failed: " . $con->connect_error);
     }
-    $branch_number = $_SESSION['branch_number'];
+    
+    $branchnum = mysqli_real_escape_string($con, $_POST['branchnum']);
+    $item_name = mysqli_real_escape_string($con, $_POST['item_name']);
+    $order_quantity = mysqli_real_escape_string($con, $_POST['quantity']);
     // Retrieve stock information
     $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number";
     $result = $con->query($sql);
@@ -25,9 +28,11 @@
     // Process orders
     if (isset($_POST['order_button'])) {
       // Check if there is enough stock
-      $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND product_id='$product_id'";
+      $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND item_name='$item_name'"; 
       $row = $result->fetch_assoc();
       $available_quantity = $row['quantity'];
+      $price = $row['price'];
+      $product_id = $row['price'];
 
       if ($order_quantity > $available_quantity) {
         echo "<p>Not enough stock available.</p>";
@@ -37,6 +42,18 @@
         $sql = "UPDATE stock SET quantity='$new_quantity' WHERE product_id='$product_id'";
         if (mysqli_query($conn, $sql)) {
           echo "<p>Order placed successfully.</p>";
+          $total_price = $total_price + $price
+          if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+              echo "<tr>";
+              echo "<td>" . $row['item_name'] . "</td>";
+              echo "<td>" . $row['price'] . "</td>";
+              echo "<td>" . $row['quantity'] . "</td>";
+              echo "</tr>";
+            }
+          } else {
+            echo "<tr><td colspan='4'>No items found.</td></tr>";
+          }
         } else {
           echo "Error updating record: " . mysqli_error($conn);
         }
@@ -54,7 +71,7 @@
       
     }
 
-    // Check if inventory is low
+    /* Check if inventory is low
     $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND quantity < 3";
     $result = mysqli_query($conn, $sql);
 
@@ -73,8 +90,8 @@
 		echo "</table>";
 		} else {
 		echo "<p>No products with low inventory.</p>";
-		}
-		?>
+		}*/
+		?> 
 
 
 <?php 
