@@ -66,6 +66,66 @@
 
 <html>
 <head>
+	<title>Items and Customers</title>
+</head>
+<body>
+	<h1>Report On Items and Who Buy Them</h1>
+	<form action="" method="post">
+		<label for="item">Item Name:</label>
+		<input type="input" name="item" required>
+		<input type="submit" name="gen_report" value="gen_report">
+	</form>
+	<br>
+
+	<?php
+	// db connections
+	$servername = "coffee-shop.mysql.database.azure.com";
+	$username = "group9";
+	$password = "Databases9!";
+	$dbname = "pointofsales";
+
+	$conn = mysqli_init();
+	mysqli_ssl_set($conn, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+	mysqli_real_connect($conn, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+	if ($conn->connect_error) {
+	  die("Connection failed: " . $conn->connect_error);
+	}
+
+	// receiving date range input
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+		if(isset($_POST['gen_report'])){
+			$item = $_POST['item'];
+		// query to get 10 items in the date range
+			$sql = "SELECT DISTINCT customer.name, customer.email, customer.phone
+					FROM pointofsales.customer,pointofsales.transaction_details,
+					pointofsales.transaction_items,pointofsales.inventory
+					WHERE item_name LIKE '%$item%' 
+					and inventory.productid = transaction_items.product_id
+					and transaction_id = transit_id and customer_user = customer.username;";
+
+			$result = $conn->query($sql);
+
+		// generates the table with items
+			if ($result->num_rows > 0) {
+				echo "<h3>Results for '$item'</h3>";
+		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th></tr>";
+		  	while($row = $result->fetch_assoc()) {
+		    	echo "<tr><td>" . $row["name"] . "</td><td>" . $row["email"] . "</td><td>". $row["phone"] . "</td></tr>";
+		  	}
+		  	echo "</table>";
+			} else {
+		  	echo "No results found.";
+			}
+		}
+	}
+	?>
+</body>
+</html>
+
+
+<html>
+<head>
 	<title>Inventory Report</title>
 </head>
 <body>
