@@ -111,7 +111,7 @@ button[type="submit"]:hover {
 	<form action="" method="post">
 		<label for="item">Item Name:</label>
 		<input type="input" name="item" required>
-		<input type="submit" name="gen_report" value="gen_report">
+		<input type="submit" name="gen_report" value="Generate Report">
 	</form>
 	<br>
 
