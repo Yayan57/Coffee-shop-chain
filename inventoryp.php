@@ -30,6 +30,7 @@ $result = $con->query($sql);
 if ($result->num_rows > 0) {
 	while($row = $result->fetch_assoc()) {
 		echo "<tr>";
+		echo "<td>" . $row['productid'] . "</td>";
 		echo "<td>" . $row['item_name'] . "</td>";
 		echo "<td>" . $row['price'] . "</td>";
 		echo "<td>" . $row['quantity'] . "</td>";
@@ -42,4 +43,3 @@ if ($result->num_rows > 0) {
 //Close the database connection
 $con->close();
 ?>
-

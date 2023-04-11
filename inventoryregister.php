@@ -37,7 +37,7 @@
 	</style>
 </head>
 <body>
-	<h2>Add Inventory Item</h2>
+	<h2>Add/View Inventory Items</h2>
 	<form method="post" action="inventory_submit.php">
 		<label for="productid">Product ID:</label>
 		<input type="text" name="productid" id="productid" pattern="[0-9]{7}" title="Please enter a 7-digit number." required><br>
@@ -54,6 +54,9 @@
 		<input type="submit" value="Delete Item" name="delete">
 
 	</form>
+
+	<input type="submit" value="View Inventory" href="#about" onclick="window.location.href = 'inventory.php';">
+
 	<?php if(isset($_GET['error'])) { ?>
 		<p class="error"><?php echo $_GET['error']; ?></p>
 	<?php } ?>
