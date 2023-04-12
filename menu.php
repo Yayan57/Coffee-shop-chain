@@ -205,6 +205,7 @@
                         if(total < 1 && loc == false) {alert("Select items and location");}
                         else if(total > 1 && loc == false){alert("Select location");}
                         else if(total < 1 && loc == true){alert("Select items");}
+                        else if(total > 1 && loc == true){alert("Order Placed!");}
                     }
                     </script>
             </section>
@@ -216,7 +217,7 @@
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
             <form action="" method="post">
-                <input type = "submit" onclick = "OrderCheck(), PlaceOrder()">
+                <input type = "submit" onclick = "OrderCheck(), printCart()" value = "Place Order">
             </form>
         </main>
     </div>
@@ -237,25 +238,17 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    function PlaceOrder(){
-        global $conn;
-
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cart = isset($_POST['cart']) ? $_POST['cart'] : [];
 
         foreach ($cart as $item) {
-            $sql = "UPDATE inventory
+            $sql = "UPDATE pointofsales.inventory
                     SET quantity = quantity - 1
-                    WHERE item_name LIKE CONCAT(TRIM(SUBSTRING_INDEX('$item', ':', 1)), ': ', 
-                        TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX('$item', ':', -1), ' - ', 1)));";
+                    WHERE item_name LIKE 'Espresso%';";
             mysqli_query($conn, $sql);
         }
-    $conn->close();
     }
-
-    if(isset($_POST['place_order'])){
-        placeOrder();
-    }
-
+    mysqli_close($conn);
 ?>
 
 <?php 
