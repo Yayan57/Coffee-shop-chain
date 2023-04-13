@@ -25,7 +25,11 @@
     foreach($connect as $row){}
 
     if(isset($_POST['update'])){
-        header('Location:update.php');
+        header('Location:profile.php');
+    }
+
+    if(isset($_POST['cancel'])){
+        header('Location:profile.php');
     }
 
     if(isset($_POST['log_out'])){
