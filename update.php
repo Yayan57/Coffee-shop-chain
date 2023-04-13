@@ -108,6 +108,7 @@
       }
       
     $con->close();
+    header('Location:profile.php');
     }
     
 ?>
