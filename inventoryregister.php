@@ -39,15 +39,15 @@
 <body>
 	<h2>Add/View Inventory Items</h2>
 	<form method="post" action="inventory_submit.php">
-		<label for="productid">Product ID:</label>
+		<label for="productid">Product ID (7 digits):</label>
 		<input type="text" name="productid" id="productid" pattern="[0-9]{7}" title="Please enter a 7-digit number." required><br>
 		<label for="item_name">Item Name:</label>
 		<input type="text" name="item_name" id="item_name" maxlength="45" required><br>
-		<label for="price">Price:</label>
+		<label for="price">Price (x.xx):</label>
 		<input type="number" name="price" id="price" step="0.01" min="0" required><br>
 		<label for="quantity">Quantity:</label>
 		<input type="number" name="quantity" id="quantity" min="0" required><br>
-		<label for="branchnum">Branch Number:</label>
+		<label for="branchnum">Branch Number (3 digits):</label>
 		<input type="text" name="branchnum" id="branchnum" pattern="[0-9]{3}" title="Please enter a 3-digit number." required><br>
 
 		<input type="submit" value="Add Item">
