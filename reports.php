@@ -176,8 +176,8 @@ button[type="submit"]:hover {
 		<label for="end_date">End Date:</label>
 		<input type="date" name="end_date" required>
 		<label for="sort_order">Sort by:</label>
-		<input type="checkbox" name="sort_order" value="asc">Ascending
-		<input type="checkbox" name="sort_order" value="desc">Descending
+		<input type="checkbox" name="sort_order" value="asc">Most Sold
+		<input type="checkbox" name="sort_order" value="desc">Least Sold
 		<input type="submit" value="Generate Report">
 	</form>
 
