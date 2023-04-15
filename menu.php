@@ -34,60 +34,50 @@
       }
     </style>
     <script>
-      // This JavaScript code gets the selected dropdown value and appends it to the output area
+    //gets the selected dropdown value and appends it to the output area
       var total  = 0;
+      var cart = [];
       function displaySelectedValue(dropdownId) {
+    //get value from dropdown
         var dropdown = document.getElementById(dropdownId);
         var output = document.getElementById("output-area");
         var totaloutput = document.getElementById("output-area");
+    //store value in array
         var selectedValue = dropdown.value;
+        cart.push(selectedValue);
+    //update price
         var num = Number(selectedValue.match(/\d+\.\d+$/)[0]);
         total = total + num;
+    //ouput item mto cart
         var newOutput = document.createElement("div");
         newOutput.className = "output-item";
         newOutput.innerHTML = selectedValue + " ";
+    //'remove' button
         var removeButton = document.createElement("button");
         removeButton.className = "remove-button";
         removeButton.innerHTML = "Remove";
         removeButton.onclick = function() {
-        newOutput.parentNode.removeChild(newOutput);
-        removeButton.parentNode.removeChild(removeButton);
-        total = total - num;
-        var totalstrng = "$"+totaloutput+"0"
-        var totalstring = document.getElementById("output-area-2");
-        totalstring.innerHTML = "$"+total;
-        removeSelection();
+        //remove 'remove' button
+            newOutput.parentNode.removeChild(newOutput);
+            removeButton.parentNode.removeChild(removeButton);
+        //update price
+            total = total - num;
+            var totalstrng = "$"+total+"0"
+            var totalstring = document.getElementById("output-area-2");
+            totalstring.innerHTML = "$"+total;
+        //remove item from cart
+            var index = cart.indexOf(selectedOption);
+            if (index > -1) {
+                cart.splice(index, 1);
+            }    
         };
         newOutput.appendChild(removeButton);
         output.appendChild(newOutput);
-        var totalstrng = "$"+totaloutput+"0"
+    //output price
+        var totalstrng = "$"+total+"0"
         var totalstring = document.getElementById("output-area-2");
         totalstring.innerHTML = "$"+total;
       }
-
-    var selections = [];
-    function storeSelection() {
-        var dropdown = document.getElementById("myDropdown");
-        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
-        selections.push(selectedOption);
-        var outputElement = document.getElementById("selectionsOutput");
-        outputElement.innerHTML = selections.join(", ");
-        }
-
-    function removeSelection() {
-        var dropdown = document.getElementById("myDropdown");
-        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
-        var index = selections.indexOf(selectedOption);
-        if (index > -1) {
-            selections.splice(index, 1);
-        }
-        var outputElement = document.getElementById("selectionsOutput");
-        outputElement.innerHTML = selections.join(", ");
-        }
-    
-    function placeOrder(){
-        
-    }
     </script>
 </head>
 <body>
@@ -101,41 +91,41 @@
                     <li>Espresso</li>
                         <label for="espresso-dropdown"></label>
                         <select id="espresso-dropdown">
-                            <option value="Espresso: Small - $2.50">Small - $2.50</option>
-                            <option value="Espresso: Medium - $3.50">Medium - $3.50</option>
-                            <option value="Espresso: Large - $4.50">Large - $4.50</option>
+                            <option value="Espresso Small - $2.50">Small - $2.50</option>
+                            <option value="Espresso Medium - $3.50">Medium - $3.50</option>
+                            <option value="Espresso Large - $4.50">Large - $4.50</option>
                         </select>
                         <button onclick="displaySelectedValue('espresso-dropdown')">Add to cart</button>
                     <li>Americano</li>
                         <label for="americano-dropdown"></label>
                         <select id="americano-dropdown">
-                            <option value="Americano: Small - $3.00">Small - $3.00</option>
-                            <option value="Americano: Medium - $4.00">Medium - $4.00</option>
-                            <option value="Americano: Large - $3.00">Large - $3.00</option>
+                            <option value="Americano Small - $3.00">Small - $3.00</option>
+                            <option value="Americano Medium - $4.00">Medium - $4.00</option>
+                            <option value="Americano Large - $3.00">Large - $3.00</option>
                         </select>
                         <button onclick="displaySelectedValue('americano-dropdown')">Add to cart</button>
                     <li>Cappuccino</li>
                         <label for="capp-dropdown"></label>
                         <select id="capp-dropdown">
-                            <option value="Cappuccino: Small - $4.00">Small - $4.00</option>
-                            <option value="Cappuccino: Medium - $5.00">Medium - $5.00</option>
-                            <option value="Cappuccino: Large - $6.00">Large - $6.00</option>
+                            <option value="Cappuccino Small - $4.00">Small - $4.00</option>
+                            <option value="Cappuccino Medium - $5.00">Medium - $5.00</option>
+                            <option value="Cappuccino Large - $6.00">Large - $6.00</option>
                         </select>
                         <button onclick="displaySelectedValue('capp-dropdown')">Add to cart</button>
                     <li>Latte</li>
                         <label for="latte-dropdown"></label>
                         <select id="latte-dropdown">
-                            <option value="Latte: Small - $4.50">Small - $4.50</option>
-                            <option value="Latte: Medium - $5.50">Medium - $5.50</option>
-                            <option value="Latte: Large - $6.50">Large - $6.50</option>
+                            <option value="Latte Small - $4.50">Small - $4.50</option>
+                            <option value="Latte Medium - $5.50">Medium - $5.50</option>
+                            <option value="Latte Large - $6.50">Large - $6.50</option>
                         </select>
                         <button onclick="displaySelectedValue('latte-dropdown')">Add to cart</button>
                     <li>Mocha</li>
                         <label for="mocha-dropdown"></label>
                         <select id="mocha-dropdown">
-                            <option value="Mocha: Small - $5.00">Small - $5.00</option>
-                            <option value="Mocha: Medium - $6.00">Medium - $6.00</option>
-                            <option value="Mocha: Large - $7.00">Large - $7.00</option>
+                            <option value="Mocha Small - $5.00">Small - $5.00</option>
+                            <option value="Mocha Medium - $6.00">Medium - $6.00</option>
+                            <option value="Mocha Large - $7.00">Large - $7.00</option>
                         </select>
                         <button onclick="displaySelectedValue('mocha-dropdown');storeSelection()">Add to cart</button>
                 </ul>
@@ -146,33 +136,33 @@
                     <li>Green Tea</li>
                         <label for="green-dropdown"></label>
                         <select id="green-dropdown">
-                            <option value="Green Tea: Small - $3.50">Small - $3.50</option>
-                            <option value="Green Tea: Medium - $4.50">Medium - $4.50</option>
-                            <option value="Green Tea: Large - $5.50">Large - $5.50</option>   
+                            <option value="Green Tea Small - $3.50">Small - $3.50</option>
+                            <option value="Green Tea Medium - $4.50">Medium - $4.50</option>
+                            <option value="Green Tea Large - $5.50">Large - $5.50</option>   
                         </select>
                         <button onclick="displaySelectedValue('green-dropdown')">Add to cart</button>
                     <li>Black Tea</li>
                         <label for="black-dropdown"></label>
                         <select id="black-dropdown">
-                            <option value="Black Tea: Small - $3.50">Small - $3.50</option>
-                            <option value="Black Tea: Medium - $4.50">Medium - $4.50</option>
-                            <option value="Black Tea: Large - $5.50">Large - $5.50</option> 
+                            <option value="Black Tea Small - $3.50">Small - $3.50</option>
+                            <option value="Black Tea Medium - $4.50">Medium - $4.50</option>
+                            <option value="Black Tea Large - $5.50">Large - $5.50</option> 
                         </select>
                         <button onclick="displaySelectedValue('black-dropdown')">Add to cart</button>
                     <li>Chai Tea</li>
                         <label for="chai-dropdown"></label>
                         <select id="chai-dropdown">
-                            <option value="Chai Tea: Small - $4.50">Small - $4.50</option>
-                            <option value="Chai Tea: Medium - $5.50">Medium - $5.50</option>
-                            <option value="Chai Tea: Large - $6.50">Large - $6.50</option>
+                            <option value="Chai Tea Small - $4.50">Small - $4.50</option>
+                            <option value="Chai Tea Medium - $5.50">Medium - $5.50</option>
+                            <option value="Chai Tea Large - $6.50">Large - $6.50</option>
                         </select>
                         <button onclick="displaySelectedValue('chai-dropdown')">Add to cart</button>
                     <li>Herbal Tea</li>
                         <label for="herb-dropdown"></label>
                         <select id="herb-dropdown">
-                            <option value="Herbal Tea: Small - $3.50">Small - $3.50</option>
-                            <option value="Herbal Tea: Medium - $4.50">Medium - $4.50</option>
-                            <option value="Herbal Tea: Large - $5.50">Large - $5.50</option> 
+                            <option value="Herbal Tea Small - $3.50">Small - $3.50</option>
+                            <option value="Herbal Tea Medium - $4.50">Medium - $4.50</option>
+                            <option value="Herbal Tea Large - $5.50">Large - $5.50</option> 
                         </select>
                         <button onclick="displaySelectedValue('herb-dropdown')">Add to cart</button>
                 </ul>
@@ -195,16 +185,27 @@
         <h4>Select store: </h4>
         <label for="loc-dropdown"></label>
                     <select id="loc-dropdown">
-                        <option value="1">Location 1</option>
-                        <option value="2">Location 2</option>
+                        <option value = 1>123 Main St, Houston, TX</option>
+                        <option value = 2>456 Elm St, Houston, TX</option>
+                        <option value = 3>789 Oak St, Houston, TX</option>
                     </select>
                     <button onclick="displaylocation('loc-dropdown')">Confirm</button>
                     
                     <script>
+                    var locdropdown = document.getElementById("loc-dropdown");
+                    var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
+                    var loc = false;
                     function displaylocation() {
-                        var dropdown = document.getElementById("loc-dropdown");
-                        var selectedValue = dropdown.options[dropdown.selectedIndex].text;
+                        var locdropdown = document.getElementById("loc-dropdown");
+                        var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
+                        loc = true;
                         document.getElementById("selectedValue").innerHTML = selectedValue;
+                    }
+                    function OrderCheck(){
+                        if(total < 1 && loc == false) {alert("Select items and location");}
+                        else if(total > 1 && loc == false){alert("Select location");}
+                        else if(total < 1 && loc == true){alert("Select items");}
+                        else if(total > 1 && loc == true){alert("Order Placed!");}
                     }
                     </script>
             </section>
@@ -215,12 +216,39 @@
             <h4>Total:</h4>
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
-            <button>Place Order</button>
+            <form action="" method="post">
+                <input type = "submit" onclick = "OrderCheck(), printCart()" value = "Place Order">
+            </form>
         </main>
     </div>
     </div>
 </body>
 </html>
+
+<?php
+    $servername = "coffee-shop.mysql.database.azure.com";
+    $username = "group9";
+    $password = "Databases9!";
+    $dbname = "pointofsales";
+
+    $conn = mysqli_init();
+    mysqli_ssl_set($conn, NULL, NULL, '/path/to/mysql-ca.pem', NULL, NULL);
+    mysqli_real_connect($conn, $servername, $username, $password, $dbname, 3306, MYSQLI_CLIENT_SSL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $cart = isset($_POST['cart']) ? $_POST['cart'] : [];
+
+        foreach ($cart as $item) {
+            $sql = "UPDATE pointofsales.inventory
+                    SET quantity = quantity - 1
+                    WHERE item_name LIKE 'Espresso%';";
+            mysqli_query($conn, $sql);
+        }
+    }
+    mysqli_close($conn);
+?>
 
 <?php 
   include('includes/footer.php');
