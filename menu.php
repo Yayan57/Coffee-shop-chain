@@ -239,24 +239,26 @@
         die("Connection failed: " . $conn->connect_error);
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $items = isset($_POST['cart']);
-        $finished = isset($_POST['done']); 
-        $drink = ' ';
-        $size = ' ';
-        $bnum = ' ';
-        if ($finished) {
-            foreach ($items as &$item) {
-                $parts = explode(" ", $item);
-                $drink = $parts[0];
-                $size = $parts[1];
-                $sql = "UPDATE inventory
-                    SET quantity = quantity - 5
-                    WHERE item_name LIKE '{$drink}%{$size}';
-                    ";
-                mysqli_query($conn, $sql);
+        if (isset($_POST['cart'])) {
+          $items = $_POST['cart'];
+          $finished = isset($_POST['done']); 
+          $drink = '';
+          $size = '';
+          $bnum = '';
+          if ($finished) {
+            foreach ($items as $item) {
+              $parts = explode(" ", $item);
+              $drink = $parts[0];
+              $size = $parts[1];
+              $sql = "UPDATE inventory
+                      SET quantity = 500
+                      WHERE item_name LIKE '$drink%$size';
+                     ";
+              mysqli_query($conn, $sql);
             }
+          }
         }
-    }
+      }
     mysqli_close($conn);
 ?>
 
