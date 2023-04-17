@@ -42,7 +42,7 @@
         $sql = "UPDATE stock SET quantity='$new_quantity' WHERE product_id='$product_id'";
         if (mysqli_query($conn, $sql)) {
           echo "<p>Order placed successfully.</p>";
-          $total_price = $total_price + $price
+          $total_price = $total_price + $price;
           if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
               echo "<tr>";
