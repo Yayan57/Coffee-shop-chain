@@ -1,5 +1,13 @@
 <?php 
-	include('includes/header.php');
+	if (!isset($_SESSION['managerid'])) {
+        header("Location: managerlogin.php");
+        exit();
+    }
+      if(isset($_SESSION['type']) and $_SESSION['type'] == "manager"){
+        include('includes/managerheader.php');    
+      }else{
+        include('includes/header.php');
+      }
 ?>
 
 <!DOCTYPE html>
