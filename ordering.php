@@ -24,7 +24,7 @@ echo "<h1>Menu</h1>";
 echo "<form action='cart.php' method='post'>";
 while ($inventory_row = mysqli_fetch_assoc($inventory_result)) {
   echo "<div>";
-  echo "<input type='checkbox' name='item[]' value='".$inventory_row['productid']."'>";
+  echo "<input type='number' name='item[]' value='0' style='width: 50px;'>";
   echo "<label>".$inventory_row['item_name']." - $".$inventory_row['price']."</label>";
   echo "</div>";
 }
