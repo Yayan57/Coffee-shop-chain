@@ -1,5 +1,7 @@
 <?php 
-        include('includes/header.php');s
+        if (!isset($_SESSION['managerid'])) {
+			header("Location: managerlogin.php");
+			exit();
 ?>
 
 <!DOCTYPE html>
@@ -42,19 +44,7 @@
 		<input type="submit" value="order_button">
 
 	</form>
-    <h3> Submitted Order </h3>
-    <table>
-		<thead>
-			<tr>
-				<th>Item Name</th>
-				<th>Price</th>
-				<th>Quantity</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php include('orderstock.php'); ?>
-		</tbody>
-	</table>
+    
 
 	<?php if(isset($_GET['error'])) { ?>
 		<p class="error"><?php echo $_GET['error']; ?></p>
