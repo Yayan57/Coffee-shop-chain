@@ -37,6 +37,8 @@
 	</style>
 </head>
 <body>
+    <form action="managerlogin.php" method="get">
+		<button type="submit">Manager Login</button>
 	<h2>Order/View Inventory Items</h2>
     <label for="branchnum">Location:</label>
 	<input type="text" name="branchnum" id="branchnum" pattern="[0-9]{3}" title="Please enter a 3-digit number." required><br>
