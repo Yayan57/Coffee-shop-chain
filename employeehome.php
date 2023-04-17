@@ -27,7 +27,7 @@ $branch_number = $_SESSION['branch_number'];
 // query to get all the transactions for the employee's branch
 $sql = "SELECT * FROM transaction_details td
         INNER JOIN transaction_items ti ON td.transaction_id = ti.transit_id
-        WHERE td.branchN = '$branch_number'
+        WHERE td.branchN = $branch_number
         ORDER BY td.date DESC, td.time DESC";
 
 $result = mysqli_query($con, $sql);
@@ -110,10 +110,10 @@ button[type="submit"]:hover {
                 $quantity = $row['quantity'];
 
                 // query to get the product name
-                $sql_product = "SELECT name FROM inventory WHERE productid = $product_id";
-                $result_product = mysqli_query($conn, $sql_product);
+                $sql_product = "SELECT item_name FROM inventory WHERE productid = $product_id";
+                $result_product = mysqli_query($con, $sql_product);
                 $row_product = mysqli_fetch_assoc($result_product);
-                $product_name = $row_product['name'];
+                $product_name = $row_product['item_name'];
 
                 echo "<tr>";
                 echo "<td>$transaction_id</td>";
@@ -130,7 +130,6 @@ button[type="submit"]:hover {
         </tbody>
     </table>
     <br>
-    <a href="inventory_register.php"><button>Enter Inventory</button></a>
 </body>
 </html>
 
