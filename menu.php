@@ -36,8 +36,10 @@
     <script>
     //gets the selected dropdown value and appends it to the output area
       var total  = 0;
+      var itemcount = 0;
       var cart = [];
-      var done = false;
+      var done;
+      var branch = 0;
       function displaySelectedValue(dropdownId) {
     //get value from dropdown
         var dropdown = document.getElementById(dropdownId);
@@ -49,6 +51,7 @@
     //update price
         var num = Number(selectedValue.match(/\d+\.\d+$/)[0]);
         total = total + num;
+        itemcount++;
     //ouput item mto cart
         var newOutput = document.createElement("div");
         newOutput.className = "output-item";
@@ -63,6 +66,7 @@
             removeButton.parentNode.removeChild(removeButton);
         //update price
             total = total - num;
+            itemcount--;
             var totalstrng = "$"+total+"0"
             var totalstring = document.getElementById("output-area-2");
             totalstring.innerHTML = "$"+total;
@@ -198,6 +202,7 @@
                     var loc = false;
                     function displaylocation() {
                         var locdropdown = document.getElementById("loc-dropdown");
+                        branch = locdropdown;
                         var selectedValue = locdropdown.options[locdropdown.selectedIndex].text;
                         loc = true;
                         document.getElementById("selectedValue").innerHTML = selectedValue;
@@ -218,7 +223,7 @@
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
             <form action="" method="post">
-                <input type = "submit" onclick = "OrderCheck()" value = "Place Order">
+                <input type = "submit" onclick = "OrderCheck()" name = "order" value = "Place Order">
             </form>
         </main>
     </div>
@@ -239,29 +244,65 @@
         die("Connection failed: " . $conn->connect_error);
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['cart'])) {
-          $items = $_POST['cart'];
-          $finished = isset($_POST['done']); 
-          $drink = '';
-          $size = '';
-          $bnum = '';
-          if ($finished) {
-            foreach ($items as $item) {
-              $parts = explode(" ", $item);
-              $drink = $parts[0];
-              $size = $parts[1];
-              $sql = "UPDATE inventory
-                      SET quantity = 500
-                      WHERE item_name LIKE '$drink%$size';
-                     ";
-              mysqli_query($conn, $sql);
+        if(isset($_POST['done'])){
+            $cart   = $_POST['cart']; //array of items
+            $bnum   = $_POST['branch']; //location where order is placed
+            $inum   = $_POST['itemcount']; //number of items ordered
+            $total  = $_POST['total']; //total cost
+            $first  = ''; //stores first word of item name
+            $second = ''; //stores second word of item name
+
+            //checks if each item is available before processing order
+            //error is returned with name of item which is out of stock
+            foreach ($cart as $item) {
+                $parts  = explode(" ", $item);
+                $first  = $parts[0];
+                $second = $parts[1];
+                //subtracts from quantity of each item ordered 
+                $sql = "SELECT quantity FROM inventory WHERE item_name LIKE '{$first}%{$second}%'
+                       ";
+                $iquant = $conn->query($sql);
+                if($iquant < 1){trigger_error("$first $second OUT OF STOCK! SORRY!", E_USER_ERROR);}
             }
-          }
+            //decrements quantity of each item
+            foreach ($cart as $item) {
+                $parts  = explode(" ", $item);
+                $first  = $parts[0];
+                $second = $parts[1];
+                    $sql = "UPDATE inventory
+                            SET quantity = quantity - 1
+                            WHERE item_name LIKE '{$first}%{$second}%' AND quantity > 0;
+                            ";
+                    mysqli_query($conn, $sql);
+            }
         }
-      }
+    }
     mysqli_close($conn);
 ?>
 
 <?php 
+/*TRIGGER CODE FOR REFERENCE
+'BEGIN
+  DECLARE count INT;
+  DECLARE branchno INT;
+
+  -- Get branch number of the transaction
+  SELECT transaction_details.branchN INTO branchno
+  FROM transaction_details
+  WHERE transaction_details.transaction_id = NEW.transit_id;
+
+  -- Count number of items in the transaction
+  SELECT COUNT(*) INTO count
+  FROM transaction_items
+  WHERE transaction_items.transit_id = NEW.transit_id;
+
+  -- If there are more than 10 items in the transaction, send a message
+  IF count > 10 THEN
+    INSERT INTO messages (sender, recipient, message_text, timestamp, branchno)
+    VALUES (''System'', ''Manager'', CONCAT(''Transaction '', NEW.transit_id, '' has more than 10 items.''), NOW(), branchno);
+  END IF;
+END'
+*/
   include('includes/footer.php');
 ?>
+ 
