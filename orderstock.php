@@ -34,11 +34,9 @@
       $price = $row['price'];
       $product_id = $row['price'];
 
-      if ($order_quantity > $available_quantity) {
-        echo "<p>Not enough stock available.</p>";
-      } else {
+      
         // Update stock
-        $new_quantity = $available_quantity - $order_quantity;
+        $new_quantity = $available_quantity + $order_quantity;
         $sql = "UPDATE stock SET quantity='$new_quantity' WHERE product_id='$product_id'";
         if (mysqli_query($conn, $sql)) {
           echo "<p>Order placed successfully.</p>";
@@ -51,13 +49,8 @@
               echo "<td>" . $row['quantity'] . "</td>";
               echo "</tr>";
             }
-          } else {
-            echo "<tr><td colspan='4'>No items found.</td></tr>";
           }
-        } else {
-          echo "Error updating record: " . mysqli_error($conn);
         }
-      }
     if ($con->query($sql) === TRUE) {
         header("Location: inventory.php");
         exit();
@@ -70,27 +63,6 @@
       
       
     }
-
-    /* Check if inventory is low
-    $sql = "SELECT * FROM inventory WHERE branchnum = $branch_number AND quantity < 3";
-    $result = mysqli_query($conn, $sql);
-
-    if ($result->num_rows > 0) {
-      echo "<h2>Low Inventory</h2>";
-      echo "<table>";
-      echo "<tr><th>Product ID</th><th>Product Name</th><th>Price</th><th>Quantity</th><th></th></tr>";
-      while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>".$row['$product_id']."</td>";
-        echo "<td>".$row['item_name']."</td>";
-        echo "<td>".$row['price']."</td>";
-        echo "<td>".$row['quantity']."</td>";
-        echo "</tr>";
-		}
-		echo "</table>";
-		} else {
-		echo "<p>No products with low inventory.</p>";
-		}*/
 		?> 
 
 
