@@ -89,6 +89,7 @@ button[type="submit"]:hover {
 		$result = $conn->query($sql);
 
 		// generates the table with items
+		echo "<h3>Results from '$start_date' to '$end_date'</h3>";
 		if ($result->num_rows > 0) {
 		  echo "<table><tr><th>Product ID</th><th>Product Name</th><th>Total Quantity Sold</th></tr>";
 		  while($row = $result->fetch_assoc()) {
@@ -109,7 +110,7 @@ button[type="submit"]:hover {
 	<title>Items and Customers</title>
 </head>
 <body>
-	<h1>Report On Items and Who Buy Them</h1>
+	<h1>Item Clients Report</h1>
 	<form action="" method="post">
 		<label for="item">Item Name:</label>
 		<input type="input" name="item" required>
@@ -137,23 +138,39 @@ button[type="submit"]:hover {
 		if(isset($_POST['gen_report'])){
 			$item = $_POST['item'];
 		// query to get 10 items in the date range
-			$sql = "SELECT DISTINCT customer.name, customer.email, customer.phone
+			$sql = "SELECT DISTINCT customer.name, customer.email, customer.phone, sum(transaction_items.quantity) as 'num'
 					FROM pointofsales.customer,pointofsales.transaction_details,
 					pointofsales.transaction_items,pointofsales.inventory
 					WHERE item_name LIKE '%$item%' 
 					and inventory.productid = transaction_items.product_id
-					and transaction_id = transit_id and customer_user = customer.username;";
+					and transaction_id = transit_id and customer_user = customer.username
+					group by customer_user;";
 
 			$result = $conn->query($sql);
+
+			$sql2 = "SELECT item_name, sum( transaction_items.quantity) as 'num',sum( transaction_items.quantity) * price as 'sold'
+					FROM pointofsales.transaction_items,pointofsales.inventory
+					WHERE item_name LIKE '%$item%' 
+					and inventory.productid = transaction_items.product_id
+					group by transaction_items.product_id;";
+
+			$result2 = $conn->query($sql2);
 
 		// generates the table with items
 			if ($result->num_rows > 0) {
 				echo "<h3>Results for '$item'</h3>";
-		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th></tr>";
+		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th><th>Number of Purchase</th></tr>";
 		  	while($row = $result->fetch_assoc()) {
-		    	echo "<tr><td>" . $row["name"] . "</td><td>" . $row["email"] . "</td><td>". $row["phone"] . "</td></tr>";
+		    	echo "<tr><td>" . $row["name"] . "</td><td>" . $row["email"] . "</td><td>". $row["phone"] . "</td><td>"
+				. $row["num"] . "</td></tr>";
 		  	}
 		  	echo "</table>";
+			$total = 0;
+			while($row = $result2->fetch_assoc()){
+				$total = $total + $row["sold"];
+				echo "<p>".$row["num"]." ".$row["item_name"]." sold for ".$row["sold"]."$</p>";
+			}
+			echo "<h3>Total: ".$total."$</h3>";
 			} else {
 		  	echo "No results found.";
 			}
@@ -209,6 +226,7 @@ button[type="submit"]:hover {
 					$inventory_end[$product_id] = $quantity;
 				}
 			}
+			echo "<h3>Results from '$start_date' to '$end_date'</h3>";
 
 			// creating the report
 			echo "<h2>Inventory Levels</h2>";
