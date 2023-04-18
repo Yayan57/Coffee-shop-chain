@@ -8,10 +8,10 @@
     $menuURL = "menu.php"; // if logged in, go to menu.php
   } else if(isset($_SESSION['type']) and $_SESSION['type'] == "employee"){
     include('includes/employeeheader.php');
-    $menuURL = "menu.php"; // if logged in, go to menu.php
+    $menuURL = "menu.php"; // if logged in, go to menu
   } else {
     include('includes/header.php');
-    $menuURL = "menuguest.php"; // if not logged in, go to menuguest.php
+    $menuURL = "menuguest.php"; // if not logged in, go to menuguest
   }
 ?>
 
