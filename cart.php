@@ -1,19 +1,77 @@
+<?php 
+  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+    include('includes/headeruser.php');
+  }
+ else{
+    include('includes/header.php');
+  }
+?>
+
+<style>
+  table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #eee;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="radio"],
+input[type="submit"],
+select {
+  margin-left: 10px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
 <?php
-session_start();
-if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
-  include('includes/headeruser.php');    
-}else{
-  include('includes/header.php');
-} 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
 
-// Check if the cart array exists in the session, create it if it doesn't
+
+
+// Check for cart
 if (!isset($_SESSION['cart'])) {
   $_SESSION['cart'] = array();
 }
 
-// Remove item from cart if the "remove" button was clicked
+// remove button
 if (isset($_POST['remove'])) {
   $productid = $_POST['productid'];
   foreach ($_SESSION['cart'] as $key => $item) {
@@ -24,24 +82,20 @@ if (isset($_POST['remove'])) {
   }
 }
 
-// Loop through the form data and add the items to the cart
+//adding into cart
 foreach ($_POST as $key => $value) {
-  // Check if the form data is for an item quantity
   if (substr($key, 0, 3) == "qty" && $value > 0) {
     $productid = substr($key, 3);
     $item = array(
       "productid" => $productid,
       "quantity" => $value
     );
-    // Add the item to the cart array
     $_SESSION['cart'][] = $item;
   }
 }
-
-// Calculate total price
 $total_price = 0;
 
-// Get product details and calculate total price
+//getting necessary variables
 if (count($_SESSION['cart']) > 0) {
   // db connections
   $servername = "coffee-shop.mysql.database.azure.com";
@@ -62,7 +116,7 @@ if (count($_SESSION['cart']) > 0) {
   echo "<table>";
   echo "<tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>";
 
-  // Loop through cart and get product details
+  //setting variables
   foreach ($_SESSION['cart'] as $item) {
     $productid = $item['productid'];
     $quantity = $item['quantity'];
@@ -111,17 +165,20 @@ if (count($_SESSION['cart']) > 0) {
 
 
 
-  // Set total price session variable
+  //set price
   $_SESSION['total_price'] = $total_price;
 
-  // Close connection
-  mysqli_close($con);
 } else {
   echo "No items in cart.";
 }
-echo '</form>';
 
+  echo '<input type="submit" name="continue" value="Confirm">
+  </form>';
+
+  // Close connection
+  mysqli_close($con);
 ?>
+
 <form method="post" action="checkout.php">
   <input type="submit" name="continue" value="Checkout">
 </form>
