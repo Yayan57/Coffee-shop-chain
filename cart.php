@@ -1,12 +1,10 @@
 <?php
-session_start();
-if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
-  include('includes/headeruser.php');    
-}else{
-  include('includes/header.php');
-} 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
+
+
 
 // Check if the cart array exists in the session, create it if it doesn't
 if (!isset($_SESSION['cart'])) {
@@ -103,7 +101,7 @@ if (count($_SESSION['cart']) > 0) {
     <select name="branchN">
         <option value="001">001</option>
         <option value="002">002</option>
-    </select><br>';
+    </select><br></form>';
 
   if(isset($_POST['branchN'])) {
   $_SESSION['branchN'] = $_POST['branchN'];
@@ -114,18 +112,14 @@ if (count($_SESSION['cart']) > 0) {
   // Set total price session variable
   $_SESSION['total_price'] = $total_price;
 
-  // Close connection
-  mysqli_close($con);
 } else {
   echo "No items in cart.";
 }
-echo '</form>';
 
+  // Close connection
+  mysqli_close($con);
 ?>
 <form method="post" action="checkout.php">
   <input type="submit" name="continue" value="Checkout">
 </form>
 
-<?php
-include('includes/footer.php');
-?>

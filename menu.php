@@ -1,14 +1,9 @@
 <?php 
-  session_start();
-  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
-    include('includes/headeruser.php');    
-  }else{
-    include('includes/header.php');
-  } 
-?>
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-<?php
-session_start();
+  session_start();
+ 
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
 $username = "group9";
@@ -48,5 +43,5 @@ if (mysqli_num_rows($result) > 0) {
 // Close connection
 mysqli_close($con);
 
-include('includes/footer.php');
+
 ?>

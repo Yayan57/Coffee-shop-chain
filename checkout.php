@@ -1,11 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
-if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
-  include('includes/headeruser.php');    
-}else{
-  include('includes/header.php');
-} 
 
 
 // db connections
@@ -53,6 +50,12 @@ $transaction_id = mysqli_insert_id($con);
 foreach ($_SESSION['cart'] as $item) {
   $product_id = $item['productid'];
   $quantity = $item['quantity'];
+
+  // Update the inventory table
+  $sql = "UPDATE inventory SET quantity = quantity - $quantity WHERE product_id = $product_id";
+  mysqli_query($con, $sql);
+
+  // Insert data into transaction_items table
   $sql = "INSERT INTO transaction_items (product_id, quantity, transit_id) 
           VALUES ('$product_id', '$quantity', '$transaction_id')";
   mysqli_query($con, $sql);
@@ -61,10 +64,11 @@ foreach ($_SESSION['cart'] as $item) {
 // Clear the cart
 unset($_SESSION['cart']);
 
+var_dump($_SESSION);
+
 // Close connection
 mysqli_close($con);
 
 echo "Checkout complete. Thank you for your purchase!";
 
-include('includes/footer.php');
 ?>
