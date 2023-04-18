@@ -1,5 +1,5 @@
 <?php 
-    include('includes/headeruser.php');
+    include('includes/header.php');
 ?>
 
 <style>
@@ -32,8 +32,8 @@
 </style>
 
 <?php 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
 session_start();
  
@@ -54,28 +54,15 @@ if ($con->connect_error) {
 }
 
 // creating menu from inventory
-$sql = "SELECT productid, item_name, price FROM inventory";
+$sql = "SELECT item_name, price FROM inventory";
 $result = mysqli_query($con, $sql);
 
 if (mysqli_num_rows($result) > 0) {
-  echo "<form method='post' action='cart.php'>";
   echo "<div style='display: flex; flex-wrap: wrap;'>";
-  $count = 0;
   while($row = mysqli_fetch_assoc($result)) {
-    $count++;
-    if ($count <= 5) {
-      echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . " ";
-      echo "<input type='number' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
-      echo "<input type='hidden' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
-    } else {
-      echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . " ";
-      echo "<input type='number' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
-      echo "<input type='hidden' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
-    }
+    echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . "</li></div>";
   }
   echo "</div>";
-  echo "<input type='submit' name='addtocart' value='Add to Cart'>";
-  echo "</form>";
 } else {
   echo "No items available.";
 }

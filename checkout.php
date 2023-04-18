@@ -1,5 +1,11 @@
 <?php
+  include('includes/headeruser.php');
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
+
 
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
@@ -17,26 +23,57 @@ if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
 
-// Retrieve cart items
-$cart_items = $_SESSION['cart'];
+////
+// Get the username from the session
+$user = $_SESSION['username'];
 
-// Update inventory and clear cart
-foreach ($cart_items as $item_id => $quantity) {
-  // Retrieve item details from inventory
-  $item_query = "SELECT * FROM inventory WHERE productid='".$item_id."'";
-  $item_result = mysqli_query($con, $item_query);
-  $item_row = mysqli_fetch_assoc($item_result);
-  
-  // Subtract quantity from inventory
-  $new_quantity = $item_row['quantity'] - $quantity;
-  $update_query = "UPDATE inventory SET quantity='".$new_quantity."' WHERE productid='".$item_id."'";
-  mysqli_query($con, $update_query);
+// Get the total price from the session
+$total_price = $_SESSION['total_price'];
+
+//branch number
+$branchN = $_SESSION['branchN'];
+
+//payment type
+$payment_type = $_SESSION['payment_type'];
+
+//togo option
+$to_go = $_SESSION['to_go'];
+
+
+// inserting data
+$date = date("Y-m-d");
+$time = date("Y-m-d H:i:s");
+$sql = "INSERT INTO transaction_details (customer_user, payment_total, payment_type, date, time, to_go, branchN) 
+        VALUES ('$user', '$total_price', '$payment_type', '$date', '$time', '$to_go', '$branchN')";
+mysqli_query($con, $sql);
+
+// Get the transaction id from that insertion
+$transaction_id = mysqli_insert_id($con);
+
+// now for the items table
+foreach ($_SESSION['cart'] as $item) {
+  $product_id = $item['productid'];
+  $quantity = $item['quantity'];
+
+  // updating inventory
+  $sql = "UPDATE inventory SET quantity = quantity - $quantity WHERE productid = '$product_id'";
+
+  mysqli_query($con, $sql);
+
+  // insertion
+  $sql = "INSERT INTO transaction_items (product_id, quantity, transit_id) 
+          VALUES ('$product_id', '$quantity', '$transaction_id')";
+  mysqli_query($con, $sql);
 }
 
-// Clear cart
-$_SESSION['cart'] = array();
+// Clear the cart
+unset($_SESSION['cart']);
 
-// Display success message
-echo "<h1>Thank you for your order!</h1>";
+
+// Close connection
+mysqli_close($con);
+
+echo "Checkout complete. Thank you for your order! Payment will be collected upon arrival, please have your chosen payment type ready.";
+
+include('includes/footer.php');
 ?>
-
