@@ -32,13 +32,13 @@ $user = $_SESSION['username'];
 $total_price = $_SESSION['total_price'];
 
 //branch number
-$branchN = '001';//$_SESSION['branchN'];
+$branchN = $_SESSION['branchN'];
 
 //payment type
-$payment_type = 'cash';//$_SESSION['payment_type'];
+$payment_type = $_SESSION['payment_type'];
 
 //togo option
-$to_go = 'yes';//$_SESSION['to_go'];
+$to_go = $_SESSION['to_go'];
 
 
 // inserting data
