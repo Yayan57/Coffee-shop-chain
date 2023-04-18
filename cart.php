@@ -1,4 +1,8 @@
 <?php 
+  if( empty(session_id()) && !headers_sent()){
+    session_start();
+  }
+
   if (isset($_POST['continue'])) {
     header('Location: checkout.php');
     exit();
@@ -60,10 +64,6 @@ input[type="submit"]:hover {
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-if( empty(session_id()) && !headers_sent()){
-  session_start();
-}
 
 
 

@@ -1,4 +1,7 @@
 <?php 
+    if( empty(session_id()) && !headers_sent()){
+        session_start();
+    }
     include('includes/headeruser.php');
 ?>
 
@@ -34,10 +37,6 @@
 <?php 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
-
-if( empty(session_id()) && !headers_sent()){
-    session_start();
-}
  
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
