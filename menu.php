@@ -58,7 +58,6 @@ if ($con->connect_error) {
 $sql = "SELECT productid, item_name, price FROM inventory";
 $result = mysqli_query($con, $sql);
 
-include('includes/headeruser.php');
 
 
 if (mysqli_num_rows($result) > 0) {
