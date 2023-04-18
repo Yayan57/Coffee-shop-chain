@@ -44,7 +44,6 @@
     //get value from dropdown
         var dropdown = document.getElementById(dropdownId);
         var output = document.getElementById("output-area");
-        var totaloutput = document.getElementById("output-area");
     //store value in array
         var selectedValue = dropdown.value;
         cart.push(selectedValue);
@@ -71,7 +70,7 @@
             var totalstring = document.getElementById("output-area-2");
             totalstring.innerHTML = "$"+total;
         //remove item from cart
-            var index = cart.indexOf(selectedOption);
+            var index = cart.indexOf(selectedValue);
             if (index > -1) {
                 cart.splice(index, 1);
             }    
@@ -211,7 +210,9 @@
                         if(total < 1 && loc == false) {alert("Select items and location");}
                         else if(total > 1 && loc == false){alert("Select location");}
                         else if(total < 1 && loc == true){alert("Select items");}
-                        else if(total > 1 && loc == true){alert("Order Placed!"); done = true;}
+                        else if(total > 1 && loc == true){
+                            alert("Order Placed!");
+                        }
                     }
                     </script>
             </section>
@@ -222,6 +223,26 @@
             <h4>Total:</h4>
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
+            <form id="myForm" action="menuprocess.php" method="post">
+                <input type="hidden" name="cart" id="cart">
+                <input type="hidden" name="branch" id="branch">
+                <input type="hidden" name="itemcount" id="itemcount">
+                <input type="hidden" name="total" id="total">
+                <button type="submit">Submit</button>
+            </form>
+            <script>
+                if (!localStorage.getItem("formSubmitted")) {
+                    // Set form values
+                    document.getElementById("cart").value = cart;
+                    document.getElementById("branch").value = branch;
+                    document.getElementById("itemcount").value = itemcount;
+                    document.getElementById("total").value = total;
+                    // Submit form
+                    document.getElementById("myForm").submit();
+                    // Set formSubmitted to true
+                    localStorage.setItem("formSubmitted", true);
+                }
+            </script>
             <form action="" method="post">
                 <input type = "submit" onclick = "OrderCheck()" name = "order" value = "Place Order">
             </form>
@@ -244,39 +265,38 @@
         die("Connection failed: " . $conn->connect_error);
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(isset($_POST['done'])){
-            $cart   = $_POST['cart']; //array of items
-            $bnum   = $_POST['branch']; //location where order is placed
-            $inum   = $_POST['itemcount']; //number of items ordered
-            $total  = $_POST['total']; //total cost
-            $first  = ''; //stores first word of item name
-            $second = ''; //stores second word of item name
+        $cart   = $_POST['cart']; //array of items
+        $branch   = $_POST['branch']; //location where order is placed
+        $itemcount   = $_POST['itemcount']; //number of items ordered
+        $total  = $_POST['total']; //total cost
+        $first  = ''; //stores first word of item name
+        $second = ''; //stores second word of item name
 
-            //checks if each item is available before processing order
-            //error is returned with name of item which is out of stock
-            foreach ($cart as $item) {
-                $parts  = explode(" ", $item);
-                $first  = $parts[0];
-                $second = $parts[1];
-                //subtracts from quantity of each item ordered 
-                $sql = "SELECT quantity FROM inventory WHERE item_name LIKE '{$first}%{$second}%'
-                       ";
-                $iquant = $conn->query($sql);
-                if($iquant < 1){trigger_error("$first $second OUT OF STOCK! SORRY!", E_USER_ERROR);}
-            }
-            //decrements quantity of each item
-            foreach ($cart as $item) {
-                $parts  = explode(" ", $item);
-                $first  = $parts[0];
-                $second = $parts[1];
-                    $sql = "UPDATE inventory
-                            SET quantity = quantity - 1
-                            WHERE item_name LIKE '{$first}%{$second}%' AND quantity > 0;
-                            ";
-                    mysqli_query($conn, $sql);
-            }
+        //checks if each item is available before processing order
+        //error is returned with name of item which is out of stock
+        foreach ($cart as $item) {
+            $parts  = explode(" ", $item);
+            $first  = $parts[0];
+            $second = $parts[1];
+            //subtracts from quantity of each item ordered 
+            $sql = "SELECT quantity FROM inventory WHERE item_name LIKE '{$first}%{$second}%'
+                   ";
+            $iquant = $conn->query($sql);
+            if($iquant < 1){trigger_error("$first $second OUT OF STOCK! SORRY!", E_USER_ERROR);}
         }
-    }
+        //decrements quantity of each item
+        foreach ($cart as $item) {
+            $parts  = explode(" ", $item);
+            $first  = $parts[0];
+            $second = $parts[1];
+            $sql = "UPDATE inventory
+                        SET quantity = quantity - 1
+                        WHERE item_name LIKE '{$first}%{$second}%' AND quantity > 0;
+                        ";
+                mysqli_query($conn, $sql);
+        }
+        }
+    //}
     mysqli_close($conn);
 ?>
 
