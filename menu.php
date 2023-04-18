@@ -228,24 +228,17 @@
                 <input type="hidden" name="branch" id="branch">
                 <input type="hidden" name="itemcount" id="itemcount">
                 <input type="hidden" name="total" id="total">
-                <button type="submit">Submit</button>
-            </form>
+                <input type = "submit" onclick = "OrderCheck()" name = "order" value = "Place Order">            </form>
             <script>
                 if (!localStorage.getItem("formSubmitted")) {
-                    // Set form values
                     document.getElementById("cart").value = cart;
                     document.getElementById("branch").value = branch;
                     document.getElementById("itemcount").value = itemcount;
                     document.getElementById("total").value = total;
-                    // Submit form
                     document.getElementById("myForm").submit();
-                    // Set formSubmitted to true
                     localStorage.setItem("formSubmitted", true);
                 }
             </script>
-            <form action="" method="post">
-                <input type = "submit" onclick = "OrderCheck()" name = "order" value = "Place Order">
-            </form>
         </main>
     </div>
     </div>
