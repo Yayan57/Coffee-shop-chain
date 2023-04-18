@@ -1,7 +1,3 @@
-<?php 
-  include('includes/headeruser.php');
-?>
-
 <style>
   table {
   border-collapse: collapse;
@@ -107,6 +103,9 @@ if (count($_SESSION['cart']) > 0) {
   if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
   }
+
+  include('includes/headeruser.php');
+
 
   echo "<table>";
   echo "<tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>";

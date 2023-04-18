@@ -1,7 +1,3 @@
-<?php 
-    include('includes/headeruser.php');
-?>
-
 <style>
   ul {
     list-style: none;
@@ -56,6 +52,9 @@ if ($con->connect_error) {
 // creating menu from inventory
 $sql = "SELECT productid, item_name, price FROM inventory";
 $result = mysqli_query($con, $sql);
+
+include('includes/headeruser.php');
+
 
 if (mysqli_num_rows($result) > 0) {
   echo "<form method='post' action='cart.php'>";

@@ -52,7 +52,7 @@ button[type="submit"]:hover {
 		<input type="date" name="start" required>
 		<label for="end">End Date:</label>
 		<input type="date" name="end" required>
-		<input type="submit" value="Generate Report">
+		<input type="submit" name="report1" value="Generate Report">
 	</form>
 	<br>
 
@@ -71,7 +71,7 @@ button[type="submit"]:hover {
 	}
 
 	// receiving date range input
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["report1"])) {
 		$start_date = $_POST["start"];
 		$end_date = $_POST["end"];
 
@@ -159,7 +159,7 @@ button[type="submit"]:hover {
 		// generates the table with items
 			if ($result->num_rows > 0) {
 				echo "<h3>Results for '$item'</h3>";
-		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th><th>Number of Purchase</th></tr>";
+		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th><th>Quntity Purchased</th></tr>";
 		  	while($row = $result->fetch_assoc()) {
 		    	echo "<tr><td>" . $row["name"] . "</td><td>" . $row["email"] . "</td><td>". $row["phone"] . "</td><td>"
 				. $row["num"] . "</td></tr>";
@@ -195,13 +195,13 @@ button[type="submit"]:hover {
 		<label for="sort_order">Sort by:</label>
 		<input type="checkbox" name="sort_order" value="asc">Most Sold
 		<input type="checkbox" name="sort_order" value="desc">Least Sold
-		<input type="submit" value="Generate Report">
+		<input type="submit" name = "report2" value="Generate Report">
 	</form>
 
 
 	<?php
 		// checking form submission 
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['report2'])) {
 			$start_date = $_POST['start_date'];
 			$end_date = $_POST['end_date'];
 
