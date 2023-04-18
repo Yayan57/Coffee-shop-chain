@@ -37,10 +37,10 @@
 </style>
 
 <?php 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
-  session_start();
+session_start();
  
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
