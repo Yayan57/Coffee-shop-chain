@@ -75,22 +75,24 @@ button[type="submit"]:hover {
 		$start_date = $_POST["start"];
 		$end_date = $_POST["end"];
 
-		// query to get 10 items in the date range
-		$sql = "SELECT product_id, SUM(quantity) AS total_quantity 
-				FROM transaction_items 
-				INNER JOIN transaction_details ON transaction_items.transit_id = transaction_details.transaction_id 
-				WHERE transaction_details.date BETWEEN '$start_date' AND '$end_date'
-				GROUP BY product_id 
-				ORDER BY total_quantity DESC 
-				LIMIT 10";
+		// query to get 10 items in the date range, joins 3 different tables
+		$sql = "SELECT i.productid, i.item_name, SUM(ti.quantity) AS total_quantity
+				FROM transaction_items ti
+				INNER JOIN transaction_details td ON ti.transit_id = td.transaction_id
+				INNER JOIN inventory i ON ti.product_id = i.productid
+				WHERE td.date BETWEEN '$start_date' AND '$end_date'
+				GROUP BY i.productid
+				ORDER BY total_quantity DESC
+				LIMIT 10;
+				";
 
 		$result = $conn->query($sql);
 
 		// generates the table with items
 		if ($result->num_rows > 0) {
-		  echo "<table><tr><th>Product ID</th><th>Total Quantity Sold</th></tr>";
+		  echo "<table><tr><th>Product ID</th><th>Product Name</th><th>Total Quantity Sold</th></tr>";
 		  while($row = $result->fetch_assoc()) {
-		    echo "<tr><td>" . $row["product_id"] . "</td><td>" . $row["total_quantity"] . "</td></tr>";
+		    echo "<tr><td>" . $row["productid"] . "</td><td>" . $row["item_name"] . "</td><td>" . $row["total_quantity"] . "</td></tr>";
 		  }
 		  echo "</table>";
 		} else {
@@ -174,8 +176,8 @@ button[type="submit"]:hover {
 		<label for="end_date">End Date:</label>
 		<input type="date" name="end_date" required>
 		<label for="sort_order">Sort by:</label>
-		<input type="checkbox" name="sort_order" value="asc">Ascending
-		<input type="checkbox" name="sort_order" value="desc">Descending
+		<input type="checkbox" name="sort_order" value="asc">Most Sold
+		<input type="checkbox" name="sort_order" value="desc">Least Sold
 		<input type="submit" value="Generate Report">
 	</form>
 

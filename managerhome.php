@@ -29,7 +29,7 @@ if (mysqli_num_rows($result) > 0) {
   $branchnum = $row["managesbranch"];
 
   // Display messages for manager 
-  $sql = "SELECT * FROM messages WHERE branchno = $branchnum ORDER BY timestamp DESC";
+  $sql = "SELECT * FROM messages WHERE branchno = $branchnum ORDER BY timestamp DESC LIMIT 10";
   $result = mysqli_query($con, $sql);
 
   if (mysqli_num_rows($result) > 0) {
