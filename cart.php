@@ -171,12 +171,13 @@ if (count($_SESSION['cart']) > 0) {
   echo '<input type="submit" name="continue" value="Checkout">
   </form>';
 
-  // Close connection
-  mysqli_close($con);
 
   if (isset($_POST['continue'])) {
     header('Location: checkout.php');
     exit();
+
+    // Close connection
+  mysqli_close($con);
   }
 ?>
 
