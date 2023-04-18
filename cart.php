@@ -1,12 +1,48 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="cstyle.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    </head>
-</html>
 <?php
-  session_start();
+session_start();
+if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+  include('includes/headeruser.php');    
+}else{
+  include('includes/header.php');
+} 
 
+session_start();
+
+// Check if the cart array exists in the session, create it if it doesn't
+if (!isset($_SESSION['cart'])) {
+  $_SESSION['cart'] = array();
+}
+
+// Remove item from cart if the "remove" button was clicked
+if (isset($_POST['remove'])) {
+  $productid = $_POST['productid'];
+  foreach ($_SESSION['cart'] as $key => $item) {
+    if ($item['productid'] == $productid) {
+      unset($_SESSION['cart'][$key]);
+      break;
+    }
+  }
+}
+
+// Loop through the form data and add the items to the cart
+foreach ($_POST as $key => $value) {
+  // Check if the form data is for an item quantity
+  if (substr($key, 0, 3) == "qty" && $value > 0) {
+    $productid = substr($key, 3);
+    $item = array(
+      "productid" => $productid,
+      "quantity" => $value
+    );
+    // Add the item to the cart array
+    $_SESSION['cart'][] = $item;
+  }
+}
+
+// Calculate total price
+$total_price = 0;
+
+// Get product details and calculate total price
+if (count($_SESSION['cart']) > 0) {
   // db connections
   $servername = "coffee-shop.mysql.database.azure.com";
   $username = "group9";
@@ -23,74 +59,73 @@
     die("Connection failed: " . $con->connect_error);
   }
 
-  // Initialize cart
-  if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = array();
-  }
-
-  // Add items to cart
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    foreach ($_POST['item'] as $item_id) {
-      if (!isset($_SESSION['cart'][$item_id])) {
-        $_SESSION['cart'][$item_id] = 1;
-      } else {
-        $_SESSION['cart'][$item_id]++;
-      }
-    }
-  }
-
-  // Retrieve cart items
-  $cart_items = array();
-  foreach ($_SESSION['cart'] as $item_id => $quantity) {
-    $item_query = "SELECT * FROM inventory WHERE productid='".$item_id."'";
-    $item_result = mysqli_query($con, $item_query);
-    $item_row = mysqli_fetch_assoc($item_result);
-    $item_row['quantity'] = $quantity;
-    $cart_items[] = $item_row;
-  }
-
-  // Display cart
-  echo "<style>.table-header-item {padding-right: 20px;}</style>";
-  echo "<div style= 'margin-left: 20px;'>";
-  echo "<h1>Cart</h1>";
   echo "<table>";
-  echo "<thead><tr><th class='table-header-item'>Item</th><th class='table-header-item'>Price</th><th class='table-header-item'>Quantity</th><th class='table-header-item'>Total</th></tr></thead>";
-  echo "</div>";
-  echo "<tbody>";
-  $total_price = 0;
-  foreach ($cart_items as $item) {
-    $item_price = $item['price'] * $item['quantity'];
+  echo "<tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>";
+
+  // Loop through cart and get product details
+  foreach ($_SESSION['cart'] as $item) {
+    $productid = $item['productid'];
+    $quantity = $item['quantity'];
+    $sql = "SELECT item_name, price FROM inventory WHERE productid = '$productid'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $item_name = $row['item_name'];
+    $price = $row['price'];
+    $item_price = $price * $quantity;
     $total_price += $item_price;
-    echo "<tr>";
-    echo "<td>".$item['item_name']."</td>";
-    echo "<td>$".$item['price']."</td>";
-    echo "<td>".$item['quantity']."</td>";
-    echo "<td>$".$item_price."</td>";
-    echo "</tr>";
+    echo "<tr><td>$item_name</td><td>$quantity</td><td>$item_price</td>";
+    echo "<td><form method='post' action='cart.php'><input type='hidden' name='productid' value='$productid'><input type='submit' name='remove' value='Remove'></form></td></tr>";
   }
-  echo "</tbody>";
-  echo "<tfoot><tr><td colspan='3'>Total:</td><td>$".$total_price."</td></tr></tfoot>";
+
+  echo "<tr><td colspan='2'>Total:</td><td>$total_price</td></tr>";
   echo "</table>";
 
-  // Checkout form
-  echo "<h2>Checkout</h2>";
-  echo "<form action='checkout.php' method='post'>";
-  echo "<label for='payment_type' style='margin-right: 20px;'>Payment Type:</label>";
-  echo "<select name='payment_type' id='payment_type'>";
-  echo "<option value='cash'>Cash</option>";
-  echo "<option value='card'>Card</option>";
-  echo "</select>";
-  echo "<br>";
-  echo "<label for='to_go' style='margin-right: 20px;'>To Go:</label>";
-  echo "<input type='checkbox' name='to_go' id='to_go'>";
-  echo "<br>";
-  echo "<label for='branchN' style='margin-right: 20px;'>Location:</label>";
-  echo "<select name='branchN' id='branchN'>";
-  echo "<option value='1'>123 Main St, Houston, TX</option>";
-  echo "<option value='2'>456 Elm St, Houston, TX</option>";
-  echo "<option value='3'>789 Oak St, Houston, TX</option>";
-  echo "</select>";
-  echo "<br>";
-  echo "<input type='submit' value='Checkout'>";
-  echo "</form>";
+  echo '<form method="post">
+  <label>Is this a to-go order? </label>
+  <input type="radio" name="to_go" value="yes"> Yes
+  <input type="radio" name="to_go" value="no" checked> No<br>';
+
+  if(isset($_POST['to_go'])) {
+  $_SESSION['to_go'] = $_POST['to_go'];
+  }  
+
+  echo '<label>Select payment type:</label>
+    <select name="payment">
+        <option value="cash">Cash</option>
+        <option value="card">Card</option>
+    </select><br>';
+
+  if(isset($_POST['payment'])) {
+  $_SESSION['payment_type'] = $_POST['payment'];
+  }
+
+  echo '<label>Branch No: </label>
+    <select name="branchN">
+        <option value="001">001</option>
+        <option value="002">002</option>
+    </select><br>';
+
+  if(isset($_POST['branchN'])) {
+  $_SESSION['branchN'] = $_POST['branchN'];
+  }
+
+
+
+  // Set total price session variable
+  $_SESSION['total_price'] = $total_price;
+
+  // Close connection
+  mysqli_close($con);
+} else {
+  echo "No items in cart.";
+}
+echo '</form>';
+
+?>
+<form method="post" action="checkout.php">
+  <input type="submit" name="continue" value="Checkout">
+</form>
+
+<?php
+include('includes/footer.php');
 ?>
