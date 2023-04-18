@@ -1,4 +1,6 @@
+
 <?php
+    session_start();
     $servername = "coffee-shop.mysql.database.azure.com";
     $username = "group9";
     $password = "Databases9!";
