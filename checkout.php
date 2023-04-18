@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 session_start();
 
@@ -52,7 +52,8 @@ foreach ($_SESSION['cart'] as $item) {
   $quantity = $item['quantity'];
 
   // Update the inventory table
-  $sql = "UPDATE inventory SET quantity = quantity - $quantity WHERE product_id = $product_id";
+  $sql = "UPDATE inventory SET quantity = quantity - $quantity WHERE productid = '$product_id'";
+
   mysqli_query($con, $sql);
 
   // Insert data into transaction_items table
@@ -64,11 +65,10 @@ foreach ($_SESSION['cart'] as $item) {
 // Clear the cart
 unset($_SESSION['cart']);
 
-var_dump($_SESSION);
 
 // Close connection
 mysqli_close($con);
 
-echo "Checkout complete. Thank you for your purchase!";
+echo "Checkout complete. Thank you for your order! Payment will be collected upon arrival, please have your chosen payment type ready.";
 
 ?>

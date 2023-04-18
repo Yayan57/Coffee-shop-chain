@@ -1,3 +1,54 @@
+<style>
+  table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #eee;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="radio"],
+input[type="submit"],
+select {
+  margin-left: 10px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -101,7 +152,7 @@ if (count($_SESSION['cart']) > 0) {
     <select name="branchN">
         <option value="001">001</option>
         <option value="002">002</option>
-    </select><br></form>';
+    </select><br>';
 
   if(isset($_POST['branchN'])) {
   $_SESSION['branchN'] = $_POST['branchN'];
@@ -116,10 +167,13 @@ if (count($_SESSION['cart']) > 0) {
   echo "No items in cart.";
 }
 
+  echo '<input type="submit" name="continue" value="Confirm">
+  </form>';
+
   // Close connection
   mysqli_close($con);
 ?>
+
 <form method="post" action="checkout.php">
   <input type="submit" name="continue" value="Checkout">
 </form>
-
