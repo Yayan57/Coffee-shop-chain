@@ -75,6 +75,6 @@ unset($_SESSION['cart']);
 mysqli_close($con);
 
 echo "Checkout complete. Thank you for your order! Payment will be collected upon arrival, please have your chosen payment type ready.";
-
+var_dump($_SESSION);
 include('includes/footer.php');
 ?>
