@@ -1,3 +1,12 @@
+<?php 
+  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+    include('includes/headeruser.php');
+  }
+ else{
+    include('includes/header.php');
+  }
+?>
+
 <style>
   table {
   border-collapse: collapse;
@@ -177,3 +186,7 @@ if (count($_SESSION['cart']) > 0) {
 <form method="post" action="checkout.php">
   <input type="submit" name="continue" value="Checkout">
 </form>
+
+<?php
+include('includes/footer.php');
+?>

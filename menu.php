@@ -1,3 +1,12 @@
+<?php 
+  if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+    include('includes/headeruser.php');
+  }
+ else{
+    include('includes/header.php');
+  }
+?>
+
 <style>
   ul {
     list-style: none;
@@ -79,4 +88,6 @@ if (mysqli_num_rows($result) > 0) {
 
 // Close connection
 mysqli_close($con);
+
+  include('includes/footer.php');
 ?>

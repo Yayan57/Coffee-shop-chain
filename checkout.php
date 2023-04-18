@@ -1,4 +1,10 @@
 <?php
+if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+  include('includes/headeruser.php');
+}
+else{
+  include('includes/header.php');
+}
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
@@ -71,4 +77,5 @@ mysqli_close($con);
 
 echo "Checkout complete. Thank you for your order! Payment will be collected upon arrival, please have your chosen payment type ready.";
 
+include('includes/footer.php');
 ?>
