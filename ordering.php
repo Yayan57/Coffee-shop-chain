@@ -1,3 +1,11 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="cstyle.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <title>User Login</title>
+    </head>
+</html>
+  
 <?php
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
@@ -20,17 +28,18 @@ $inventory_query = "SELECT * FROM inventory";
 $inventory_result = mysqli_query($con, $inventory_query);
 
 // Display menu
+echo "<div style= 'margin-left: 20px;'>";
 echo "<h1>Menu</h1>";
 echo "<form action='cart.php' method='post'>";
 while ($inventory_row = mysqli_fetch_assoc($inventory_result)) {
-  echo "<div>";
-  echo "<input type='number' name='item[]' value='0' style='width: 50px;'>";
+  echo "<div style= 'margin-left: 20px;'>";
+  echo "<input type='number' name='item[]' value='0' min='0' max='15' style='width: 40px; margin-right: 20px;'>";
   echo "<label>".$inventory_row['item_name']." - $".$inventory_row['price']."</label>";
   echo "</div>";
 }
 echo "<input type='submit' value='Add to Cart'>";
 echo "</form>";
-
+echo "</div>";
 // Process cart
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Insert transaction details

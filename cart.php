@@ -1,3 +1,9 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="cstyle.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+</html>
 <?php
 session_start();
 
@@ -44,9 +50,12 @@ foreach ($_SESSION['cart'] as $item_id => $quantity) {
 }
 
 // Display cart
+echo "<style>.table-header-item {padding-right: 20px;}</style>";
+echo "<div style= 'margin-left: 20px;'>";
 echo "<h1>Cart</h1>";
 echo "<table>";
-echo "<thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Total</th></tr></thead>";
+echo "<thead><tr><th class='table-header-item'>Item</th><th class='table-header-item'>Price</th><th class='table-header-item'>Quantity</th><th class='table-header-item'>Total</th></tr></thead>";
+echo "</div>";
 echo "<tbody>";
 $total_price = 0;
 foreach ($cart_items as $item) {
@@ -66,16 +75,16 @@ echo "</table>";
 // Checkout form
 echo "<h2>Checkout</h2>";
 echo "<form action='checkout.php' method='post'>";
-echo "<label for='payment_type'>Payment Type:</label>";
+echo "<label for='payment_type' style='margin-right: 20px;'>Payment Type:</label>";
 echo "<select name='payment_type' id='payment_type'>";
 echo "<option value='cash'>Cash</option>";
 echo "<option value='card'>Card</option>";
 echo "</select>";
 echo "<br>";
-echo "<label for='to_go'>To Go:</label>";
+echo "<label for='to_go' style='margin-right: 20px;'>To Go:</label>";
 echo "<input type='checkbox' name='to_go' id='to_go'>";
 echo "<br>";
-echo "<label for='branchN'>Location:</label>";
+echo "<label for='branchN' style='margin-right: 20px;'>Location:</label>";
 echo "<select name='branchN' id='branchN'>";
 echo "<option value='1'>123 Main St, Houston, TX</option>";
 echo "<option value='2'>456 Elm St, Houston, TX</option>";
