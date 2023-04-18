@@ -54,8 +54,8 @@ input[type="submit"]:hover {
 
 </style>
 <?php
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
 
@@ -167,16 +167,18 @@ if (count($_SESSION['cart']) > 0) {
   echo "No items in cart.";
 }
 
-  echo '<input type="submit" name="continue" value="Confirm">
+  echo '<input type="submit" name="continue" value="Checkout">
   </form>';
 
   // Close connection
   mysqli_close($con);
+
+  if (isset($_POST['continue'])) {
+    header('Location: checkout.php');
+    exit();
+  }
 ?>
 
-<form method="post" action="checkout.php">
-  <input type="submit" name="continue" value="Checkout">
-</form>
 
 <?php
 include('includes/footer.php');
