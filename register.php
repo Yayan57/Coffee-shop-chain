@@ -53,9 +53,8 @@
         }
 
         if (mysqli_query($con,$sql)) {
-            $_SESSION['username'] = $_POST['username'];
             $message= "Account successfully created";
-            header('Location:landing.php');
+            header('Location:login.php');
         } else {
             if(str_contains($con->error,"id")){
                 $message = "The entered ID is not valid. Please enter a valid ID.";
