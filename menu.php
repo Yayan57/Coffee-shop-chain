@@ -58,11 +58,10 @@ if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
 
-// Retrieve menu items from inventory table
+// creating menu from inventory
 $sql = "SELECT productid, item_name, price FROM inventory";
 $result = mysqli_query($con, $sql);
 
-// Display menu items with forms
 if (mysqli_num_rows($result) > 0) {
   echo "<form method='post' action='cart.php'>";
   echo "<div style='display: flex; flex-wrap: wrap;'>";
@@ -83,7 +82,7 @@ if (mysqli_num_rows($result) > 0) {
   echo "<input type='submit' name='addtocart' value='Add to Cart'>";
   echo "</form>";
 } else {
-  echo "No menu items available.";
+  echo "No items available.";
 }
 
 // Close connection
