@@ -15,6 +15,7 @@
         $branch   = $_POST['branch']; //location where order is placed
         $itemcount   = $_POST['itemcount']; //number of items ordered
         $total  = $_POST['total']; //total cost
+        var_dump($_POST);
         $first  = ''; //stores first word of item name
         $second = ''; //stores second word of item name
 
@@ -42,7 +43,6 @@
                 mysqli_query($conn, $sql);
         }
         }
-        var_dump($_POST);
     //}
     mysqli_close($conn);
 ?>
