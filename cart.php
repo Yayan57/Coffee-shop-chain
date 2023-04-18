@@ -1,4 +1,8 @@
 <?php 
+  if (isset($_POST['continue'])) {
+    header('Location: checkout.php');
+    exit();
+  }
   include('includes/headeruser.php');
 ?>
 
@@ -174,13 +178,9 @@ if (count($_SESSION['cart']) > 0) {
   </form>';
 
 
-  if (isset($_POST['continue'])) {
-    header('Location: checkout.php');
-    exit();
 
     // Close connection
   mysqli_close($con);
-  }
 ?>
 
 
