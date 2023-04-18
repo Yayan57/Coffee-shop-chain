@@ -150,8 +150,9 @@ if (count($_SESSION['cart']) > 0) {
 
   echo '<label>Branch No: </label>
     <select name="branchN">
-        <option value="001">001</option>
-        <option value="002">002</option>
+        <option value="001">123 Main St, Houston, TX</option>
+        <option value="002">456 Elm St, Houston, TX</option>
+        <option value="003">789 Oak St, Houston, TX</option>
     </select><br>';
 
   if(isset($_POST['branchN'])) {
