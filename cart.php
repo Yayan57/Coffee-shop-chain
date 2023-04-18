@@ -1,3 +1,15 @@
+<?php 
+  if( empty(session_id()) && !headers_sent()){
+    session_start();
+  }
+
+  if (isset($_POST['continue'])) {
+    header('Location: checkout.php');
+    exit();
+  }
+  include('includes/headeruser.php');
+?>
+
 <style>
   table {
   border-collapse: collapse;
@@ -52,8 +64,6 @@ input[type="submit"]:hover {
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-session_start();
 
 
 
@@ -149,8 +159,9 @@ if (count($_SESSION['cart']) > 0) {
 
   echo '<label>Branch No: </label>
     <select name="branchN">
-        <option value="001">001</option>
-        <option value="002">002</option>
+        <option value="001">123 Main St, Houston, TX</option>
+        <option value="002">456 Elm St, Houston, TX</option>
+        <option value="003">789 Oak St, Houston, TX</option>
     </select><br>';
 
   if(isset($_POST['branchN'])) {
@@ -169,13 +180,10 @@ if (count($_SESSION['cart']) > 0) {
   echo '<input type="submit" name="continue" value="Checkout">
   </form>';
 
-  // Close connection
-  mysqli_close($con);
 
-  if (isset($_POST['continue'])) {
-    header('Location: checkout.php');
-    exit();
-  }
+
+    // Close connection
+  mysqli_close($con);
 ?>
 
 

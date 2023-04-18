@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     include('includes/header.php');
 ?>
 
@@ -34,8 +35,6 @@
 <?php 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
-
-session_start();
  
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
