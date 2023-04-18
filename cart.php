@@ -2,11 +2,6 @@
   if( empty(session_id()) && !headers_sent()){
     session_start();
   }
-
-  if (isset($_POST['continue'])) {
-    header('Location: checkout.php');
-    exit();
-  }
   include('includes/headeruser.php');
 ?>
 
@@ -177,16 +172,25 @@ if (count($_SESSION['cart']) > 0) {
   echo "No items in cart.";
 }
 
-  echo '<input type="submit" name="continue" value="Checkout">
-  </form>';
+  echo '</form>';
 
 
-
-    // Close connection
-  mysqli_close($con);
+  
 ?>
+
+<html>
+<form method="POST" action="./checkout.php">
+  <input type="hidden" name="to_go" value="{{ to_go }}">
+  <input type="hidden" name="payment_type" value="{{ payment_type }}">
+  <input type="hidden" name="branchN" value="{{ branchN }}">
+  <button type="submit">Checkout</button>
+</form>
+</html>
+
 
 
 <?php
+  // Close connection
+  mysqli_close($con);
 include('includes/footer.php');
 ?>
