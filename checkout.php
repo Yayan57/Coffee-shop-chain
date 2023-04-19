@@ -1,6 +1,7 @@
 <?php
+if(!isset($_SESSION)){
   session_start();
-  include('includes/headeruser.php');
+}
 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
@@ -66,6 +67,7 @@ foreach ($_SESSION['cart'] as $item) {
           VALUES ('$product_id', '$quantity', '$transaction_id')";
   mysqli_query($con, $sql);
 }
+include('includes/headeruser.php');
 
 // Clear the cart
 unset($_SESSION['cart']);
