@@ -1,10 +1,3 @@
-<?php 
-  if( empty(session_id()) && !headers_sent()){
-    session_start();
-  }
-  include('includes/headeruser.php');
-?>
-
 <style>
   table {
   border-collapse: collapse;
@@ -57,6 +50,7 @@ input[type="submit"]:hover {
 
 </style>
 <?php
+    session_start();  
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -87,6 +81,7 @@ foreach ($_POST as $key => $value) {
       "quantity" => $value
     );
     $_SESSION['cart'][] = $item;
+    
   }
 }
 $total_price = 0;
@@ -109,13 +104,46 @@ if (count($_SESSION['cart']) > 0) {
     die("Connection failed: " . $con->connect_error);
   }
 
-  include('includes/headeruser.php');
+
+  
+  if(isset($_POST['to_go'])) {
+  $_SESSION['to_go'] = $_POST['to_go'];
+  }  
 
 
-  echo "<table>";
-  echo "<tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>";
+  if(isset($_POST['payment'])) {
+  $_SESSION['payment_type'] = $_POST['payment'];
+  }
 
-  //setting variables
+  
+  if(isset($_POST['branchN'])) {
+  $_SESSION['branchN'] = $_POST['branchN'];
+  }
+
+
+
+  //set price
+  $_SESSION['total_price'] = $total_price;
+  if(isset($_POST["check_out"])){
+    header('Location: checkout.php');
+  }
+
+}
+
+include('includes/headeruser.php');
+
+  
+?>
+
+<html>
+<form method="POST" action="cart.php">
+  <?php if (count($_SESSION['cart']) > 0) { ?>
+  <tr><td><?php $item_name ?></td><td><?php $quantity ?></td><td><?php$item_price?></td>
+  <table>
+  <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
+
+  <?php
+  $total_price = 0;
   foreach ($_SESSION['cart'] as $item) {
     $productid = $item['productid'];
     $quantity = $item['quantity'];
@@ -125,65 +153,40 @@ if (count($_SESSION['cart']) > 0) {
     $item_name = $row['item_name'];
     $price = $row['price'];
     $item_price = $price * $quantity;
-    $total_price += $item_price;
-    echo "<tr><td>$item_name</td><td>$quantity</td><td>$item_price</td>";
-    echo "<td><form method='post' action='cart.php'><input type='hidden' name='productid' value='$productid'><input type='submit' name='remove' value='Remove'></form></td></tr>";
-  }
+    $total_price = $total_price + $item_price;
+    $type="submit";
+    $remove="remove";
+    echo "<tr><td>$item_name</td><td>$quantity</td><td>$item_price</td><td><input type=$type name=$remove value=$remove></td></tr>";
+    }
+  
+  echo"<tr><td colspan='2'>Total:</td><td>$total_price</td></tr>"
+  ?>
+  </table>
 
-  echo "<tr><td colspan='2'>Total:</td><td>$total_price</td></tr>";
-  echo "</table>";
-
-  echo '<form method="post">
   <label>Is this a to-go order? </label>
   <input type="radio" name="to_go" value="yes"> Yes
-  <input type="radio" name="to_go" value="no" checked> No<br>';
+  <input type="radio" name="to_go" value="no" checked> No<br>
 
-  if(isset($_POST['to_go'])) {
-  $_SESSION['to_go'] = $_POST['to_go'];
-  }  
-
-  echo '<label>Select payment type:</label>
+  
+  <label>Select payment type:</label>
     <select name="payment">
         <option value="cash">Cash</option>
         <option value="card">Card</option>
-    </select><br>';
+    </select><br>
 
-  if(isset($_POST['payment'])) {
-  $_SESSION['payment_type'] = $_POST['payment'];
-  }
-
-  echo '<label>Branch No: </label>
-    <select name="branchN">
+    <label>Branch No: </label>
+    <select name="branchN" id="branchN">
         <option value="001">123 Main St, Houston, TX</option>
         <option value="002">456 Elm St, Houston, TX</option>
         <option value="003">789 Oak St, Houston, TX</option>
-    </select><br>';
-
-  if(isset($_POST['branchN'])) {
-  $_SESSION['branchN'] = $_POST['branchN'];
-  }
+    </select><br>
+    <input type="submit" class="btn btn-success" name="check_out" value="Check Out">
 
 
+  <?php } else { ?>
+  <h1>No items in cart</h1>
+  <?php } ?>
 
-  //set price
-  $_SESSION['total_price'] = $total_price;
-
-} else {
-  echo "No items in cart.";
-}
-
-  echo '</form>';
-
-
-  
-?>
-
-<html>
-<form method="POST" action="./checkout.php">
-  <input type="hidden" name="to_go" value="{{ to_go }}">
-  <input type="hidden" name="payment_type" value="{{ payment_type }}">
-  <input type="hidden" name="branchN" value="{{ branchN }}">
-  <button type="submit">Checkout</button>
 </form>
 </html>
 
@@ -191,6 +194,8 @@ if (count($_SESSION['cart']) > 0) {
 
 <?php
   // Close connection
+  if (count($_SESSION['cart']) > 0) {
   mysqli_close($con);
+  }
 include('includes/footer.php');
 ?>

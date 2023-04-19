@@ -29,10 +29,10 @@ if ($con->connect_error) {
 $user = $_SESSION['username'];
 
 // Get the total price from the session
-$total_price = $_SESSION['total_price'];
+$total_price = $_SESSION["total_price"];
 
 //branch number
-$branchN = $_SESSION['branchN'];
+$branchN = $_SESSION["branchN"];
 
 //payment type
 $payment_type = $_SESSION['payment_type'];
@@ -75,6 +75,5 @@ unset($_SESSION['cart']);
 mysqli_close($con);
 
 echo "Checkout complete. Thank you for your order! Payment will be collected upon arrival, please have your chosen payment type ready.";
-var_dump($_SESSION);
 include('includes/footer.php');
 ?>
