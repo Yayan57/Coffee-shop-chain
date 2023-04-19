@@ -159,7 +159,7 @@ button[type="submit"]:hover {
 		// generates the table with items
 			if ($result->num_rows > 0) {
 				echo "<h3>Results for '$item'</h3>";
-		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th><th>Quntity Purchased</th></tr>";
+		  	echo "<table><tr><th>Name</th><th>Email</th><th>phone</th><th>Quantity Purchased</th></tr>";
 		  	while($row = $result->fetch_assoc()) {
 		    	echo "<tr><td>" . $row["name"] . "</td><td>" . $row["email"] . "</td><td>". $row["phone"] . "</td><td>"
 				. $row["num"] . "</td></tr>";
