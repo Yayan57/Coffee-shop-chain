@@ -84,7 +84,7 @@ if (count($_SESSION['cart']) > 0) {
 ?>
 
 <html>
-<form method="POST" action="cart.php">
+<form method="POST" method="post" action="cart.php">
   <?php if (count($_SESSION['cart']) > 0) { ?>
   <tr><td><?php $item_name ?></td><td><?php $quantity ?></td><td><?php$item_price?></td>
   <table id="table">
