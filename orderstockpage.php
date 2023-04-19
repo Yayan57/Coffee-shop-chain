@@ -1,7 +1,13 @@
 <?php 
-        if (!isset($_SESSION['managerid'])) {
-			header("Location: managerlogin.php");
-			exit();
+        session_start();
+		if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+		include('includes/headeruser.php');    
+		}
+		else if(isset($_SESSION['type']) and $_SESSION['type'] == "manager"){
+		include('includes/managerheader.php');    
+		}else{
+		include('includes/header.php');
+		}
 ?>
 
 <!DOCTYPE html>
@@ -32,16 +38,15 @@
 </head>
 <body>
 	<h2>Order/View Inventory Items</h2>
-    <label for="branchnum">Location:</label>
-	<input type="text" name="branchnum" id="branchnum" pattern="[0-9]{3}" title="Please enter a 3-digit number." required><br>
-	<form method="post" action="stock.php">
-		<label for="item_name">Item Name:</label>
-		<input type="submit" name="item_name" id="item_name" maxlength="45"><br>
-		<label for="price">Price:</label>
+	<form method="post" action="orderstock.php">
+		<label for="inventory">Select an item:</label>
+			<select name="inventory" id="inventory">
+				<option value="">--Select--</option>
+			</select>
 		<label for="quantity">Quantity:</label>
 		<input type="number" name="quantity" id="quantity" min="0"><br>
 		
-		<input type="submit" value="order_button">
+		<input type="submit" value="order_button" name="order_button">
 
 	</form>
     
