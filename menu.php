@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
 
   if(isset($_POST['addtocart'])){
-    header('Location: login.php');
+    header('Location: cart.php');
   }
 }
 

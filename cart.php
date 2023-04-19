@@ -3,8 +3,6 @@ if(!isset($_SESSION)){
   session_start();
 }
 
-
-
 // Check for cart
 if (!isset($_SESSION['cart'])) {
   $_SESSION['cart'] = array();
@@ -84,9 +82,9 @@ if (count($_SESSION['cart']) > 0) {
 ?>
 
 <html>
-<form method="POST" method="post" action="cart.php">
+<form name="cart_form" method="POST" action="cart.php">
   <?php if (count($_SESSION['cart']) > 0) { ?>
-  <tr><td><?php $item_name ?></td><td><?php $quantity ?></td><td><?php$item_price?></td>
+  <tr><td><?php echo $item_name ?></td><td><?php echo $quantity ?></td><td><?php echo $item_price?></td>
   <table id="table">
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
 
@@ -103,12 +101,12 @@ if (count($_SESSION['cart']) > 0) {
     $item_price = $price * $quantity;
     $total_price = $total_price + $item_price;
     $type="submit";
-    $remove="remove";
-    echo "<tr><td>$item_name</td><td>$quantity</td><td>$item_price</td><td><input type=$type name=$remove value=$remove></td></tr>";
-    }
+    $remove="remove"; ?>
+    <tr><td><?php echo $item_name ?></td><td><?php echo $quantity?></td><td><?php echo $item_price?></td><td><input type="type" name="remove" value="remove"></td></tr>";
+    <?php}?>
   
-  echo"<tr><td colspan='2'>Total:</td><td>$total_price</td></tr>"
-  ?>
+  <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
+
   </table>
 
   <script>
