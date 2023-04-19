@@ -112,7 +112,7 @@ if (count($_SESSION['cart']) > 0) {
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
     <?php $j = 0;
     while ($j < count($_SESSION['item'])) { ?>
-    <tr><td><?php echo $_SESSION["item"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="type" name="remove" value="remove"></td></tr>";
+    <tr><td><?php echo $_SESSION["item"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="type" name="remove" value="remove"></td></tr>
     <?php $j = $j+1;} ?>
   <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
 
