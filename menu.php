@@ -43,6 +43,8 @@ if(isset($_POST['addtocart'])){
 
 
 if (mysqli_num_rows($result) > 0) {
+  include('includes/headeruser.php');
+
   echo "<form method='post' action='cart.php'>";
   echo "<div class='my-div' style='display: flex; flex-wrap: wrap;'>";
   $count = 0;
@@ -62,6 +64,7 @@ if (mysqli_num_rows($result) > 0) {
   echo "<input type='submit' name='addtocart' value='Add to Cart'>";
   echo "</form>";
 } else {
+  include('includes/headeruser.php');
   echo "No items available.";
 }
 

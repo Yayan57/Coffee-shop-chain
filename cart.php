@@ -94,12 +94,68 @@ if (count($_SESSION['cart']) > 0) {
     header('Location: checkout.php');
   }
 
+  if(isset($_POST["cancel"])){
+    unset($_SESSION['cart']);
+    header('Location: menu.php');
+  }
+
 }
 
 include('includes/headeruser.php');
   
 ?>
 
+<style>
+  table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #eee;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="radio"],
+input[type="submit"],
+select {
+  margin-left: 10px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
 <html>
 <head>
         <link rel="stylesheet" href="landingstyle.css">
@@ -112,7 +168,7 @@ include('includes/headeruser.php');
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
     <?php $j = 0;
     while ($j < count($_SESSION['item'])) { ?>
-    <tr><td><?php echo $_SESSION["item"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="type" name="remove" value="remove"></td></tr>
+    <tr><td><?php echo $_SESSION["item"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="submit" name="remove" value="remove"></td></tr>
     <?php $j = $j+1;} ?>
   <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
 
@@ -151,6 +207,7 @@ include('includes/headeruser.php');
         <option value="003">789 Oak St, Houston, TX</option>
     </select><br>
     <input type="submit" class="btn btn-success" name="check_out" value="Check Out">
+    <input type="submit" class="btn btn-success" name="cancel" value="Cancel Order">
 
 
   <?php } else { ?>
