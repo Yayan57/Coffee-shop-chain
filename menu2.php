@@ -211,6 +211,7 @@
                         else if(total < 1 && loc == true){alert("Select items");}
                         else if(total > 1 && loc == true){
                             alert("Order Placed!");
+                            myJavascriptFunction(); 
                         }
                     }
                     </script>
@@ -222,30 +223,13 @@
             <h4>Total:</h4>
             <div id = "output-area-2"></div>
             <h4>Location:</h4><p id="selectedValue"></p>
-            <form id="myForm" formname="myForm" action="menu2process.php" method="POST">
-                <input type="hidden" name="cart" id="cart">
-                <input type="hidden" name="branch" id="branch">
-                <input type="hidden" name="itemcount" id="itemcount">
-                <input type="hidden" name="total" id="total">
-                <input type="submit" onclick="OrderCheck()" name="order" value="Place Order">
-                </form>
-/
-            <script>
-                if (!localStorage.getItem("formSubmitted")) {
-                    // Set form values
-                    document.getElementById("cart").value = cart;
-                    document.getElementById("branch").value = branch;
-                    document.getElementById("itemcount").value = itemcount;
-                    document.getElementById("total").value = total;
-                    
-                    // Submit form using POST
-                    var form = document.getElementById("myForm");
-                    form.method = "POST";
-                    form.submit();
-                    
-                    localStorage.setItem("formSubmitted", true);
-                }
-            </script>
+                <button onclick="OrderCheck()">Place Order</button>
+                <script>
+                    function myJavascriptFunction() {
+                        window.location.href = "menu2process.php?cart=" + cart + 
+                                        "&branch=" + branch + "&itemcount=" + itemcount + "&total=" + total;
+                    }
+                </script>
         </main>
     </div>
     </div>
