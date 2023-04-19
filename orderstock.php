@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 //Loop through items and add them to the dropdown list
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        echo "<option value='" . $row["company_name"] . "'>" . $row["item_name"] . "</option>";
+        echo "<option value='" . $row["company_name"] . " '> " . $row["item_name"] . "</option>";
     }
 } else {
     echo "0 results";
