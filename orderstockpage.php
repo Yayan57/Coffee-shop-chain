@@ -39,24 +39,9 @@
 <body>
 	<h2>Order Inventory Items</h2>
 	<form method="post" action="orderstock.php">
-		<label for="inventory">Select an item:</label>
-			<select name="inventory" id="inventory">
+		<label for="supplier">Select an item:</label>
+			<select name="supplier" id="supplier">
 				<option value="">--Select--</option>
-				<?php
-				$sql = "SELECT supplier.company_name, inventory.item_name
-				FROM supplier
-				INNER JOIN inventory ON supplier.product_id = inventory.productid";
-				$result = $conn->query($sql);
-				
-				//Loop through items and add them to the dropdown list
-				if ($result->num_rows > 0) {
-					while($row = $result->fetch_assoc()) {
-						echo "<option value='" . $row["company_name"] . " '> " . $row["item_name"] . "</option>";
-					}
-				} else {
-					echo "0 results";
-				}
-			?>
 			</select>
 		<label for="quantity">Quantity:</label>
 		<input type="number" name="quantity" id="quantity" min="0"><br>
