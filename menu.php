@@ -1,10 +1,3 @@
-<?php 
-    if( empty(session_id()) && !headers_sent()){
-        session_start();
-    }
-    include('includes/headeruser.php');
-?>
-
 <style>
   ul {
     list-style: none;
@@ -37,6 +30,7 @@
 <?php 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
+session_start();
  
 // db connections
 $servername = "coffee-shop.mysql.database.azure.com";
@@ -58,10 +52,13 @@ if ($con->connect_error) {
 $sql = "SELECT productid, item_name, price FROM inventory";
 $result = mysqli_query($con, $sql);
 
-
+if(isset($_POST['addtocart'])){
+  header('Location: cart.php');
+}
+include('includes/headeruser.php');
 
 if (mysqli_num_rows($result) > 0) {
-  echo "<form method='post' action='cart.php'>";
+  echo "<form method='post' action='menu.php'>";
   echo "<div style='display: flex; flex-wrap: wrap;'>";
   $count = 0;
   while($row = mysqli_fetch_assoc($result)) {
