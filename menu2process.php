@@ -15,15 +15,10 @@
         die("Connection failed: " . $conn->connect_error);
     }
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        // $cart      = $_POST['cart'];      // array of items
-        // $branch    = $_POST['branch'];    // location where order is placed
-        // $itemcount = $_POST['itemcount']; // number of items ordered
-        // $total     = $_POST['total'];     // total cost
         $cart = $_GET["cart"];
         $branch = $_GET["branch"];
         $itemcount = $_GET["itemcount"];
         $total = $_GET["total"];
-        var_dump($_GET);
 
         $newcart = explode(",", $cart);
         // Loop through the array and further split each item at the hyphen
@@ -63,5 +58,13 @@
         }
     //}
     mysqli_close($conn);
+ ?>
+ <!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="cstyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<h1>ORDER PLACED!</h1>
+</html>
+<?php
     include('includes/footer.php');
 ?>

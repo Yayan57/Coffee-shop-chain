@@ -209,10 +209,7 @@
                         if(total < 1 && loc == false) {alert("Select items and location");}
                         else if(total > 1 && loc == false){alert("Select location");}
                         else if(total < 1 && loc == true){alert("Select items");}
-                        else if(total > 1 && loc == true){
-                            alert("Order Placed!");
-                            myJavascriptFunction(); 
-                        }
+                        else if(total > 1 && loc == true){myJavascriptFunction();}
                     }
                     </script>
             </section>
