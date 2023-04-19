@@ -11,10 +11,10 @@
         die("Connection failed: " . $conn->connect_error);
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $cart   = $_POST['cart']; //array of items
-        $branch   = $_POST['branch']; //location where order is placed
-        $itemcount   = $_POST['itemcount']; //number of items ordered
-        $total  = $_POST['total']; //total cost
+        $cart      = $_POST['cart'];      // array of items
+        $branch    = $_POST['branch'];    // location where order is placed
+        $itemcount = $_POST['itemcount']; // number of items ordered
+        $total     = $_POST['total'];     // total cost
         var_dump($_POST);
         $first  = ''; //stores first word of item name
         $second = ''; //stores second word of item name

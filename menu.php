@@ -1,3 +1,15 @@
+<html>
+  <style>
+    .my-input{
+      margin-bottom: 10px;
+    }  
+    .my-div {
+    margin-top: 20px;
+  }
+  </style>
+	<link rel="stylesheet" href="cstyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</html>
 <?php 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
@@ -32,18 +44,18 @@ if(isset($_POST['addtocart'])){
 
 if (mysqli_num_rows($result) > 0) {
   echo "<form method='post' action='cart.php'>";
-  echo "<div style='display: flex; flex-wrap: wrap;'>";
+  echo "<div class='my-div' style='display: flex; flex-wrap: wrap;'>";
   $count = 0;
   while($row = mysqli_fetch_assoc($result)) {
     $count++;
     if ($count <= 5) {
       echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . " ";
-      echo "<input type='number' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
-      echo "<input type='hidden' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
+      echo "<input type='number' class='my-input' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
+      echo "<input type='hidden' class='my-input' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
     } else {
       echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . " ";
-      echo "<input type='number' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
-      echo "<input type='hidden' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
+      echo "<input type='number' class='my-input' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
+      echo "<input type='hidden' class='my-input' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
     }
   }
   echo "</div>";
