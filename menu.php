@@ -51,17 +51,17 @@ if (mysqli_num_rows($result) > 0) {
   while($row = mysqli_fetch_assoc($result)) {
     $count++;
     if ($count <= 5) {
-      echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . " ";
+      echo "<div style='flex: 1 1 50%;'>" . $row["item_name"] . " - $" . $row["price"] . " ";
       echo "<input type='number' class='my-input' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
-      echo "<input type='hidden' class='my-input' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
+      echo "<input type='hidden' class='my-input' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></div>";
     } else {
-      echo "<div style='flex: 1 1 50%;'><li>" . $row["item_name"] . " - $" . $row["price"] . " ";
+      echo "<div style='flex: 1 1 50%;'>" . $row["item_name"] . " - $" . $row["price"] . " ";
       echo "<input type='number' class='my-input' name='qty" . $row["productid"] . "' value='0' min='0' style='width:50px;'>";
-      echo "<input type='hidden' class='my-input' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></li></div>";
+      echo "<input type='hidden' class='my-input' name='productid" . $row["productid"] . "' value='" . $row["productid"] . "'></div>";
     }
   }
   echo "</div>";
-  echo "<input type='submit' name='addtocart' value='Add to Cart'>";
+  echo "<input type='submit'  name='addtocart' value='Add to Cart'>";
   echo "</form>";
 } else {
   include('includes/headeruser.php');
