@@ -51,8 +51,6 @@ input[type="submit"]:hover {
 </style>
 <?php
     session_start();  
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 
 
@@ -139,7 +137,7 @@ include('includes/headeruser.php');
 <form method="POST" action="cart.php">
   <?php if (count($_SESSION['cart']) > 0) { ?>
   <tr><td><?php $item_name ?></td><td><?php $quantity ?></td><td><?php$item_price?></td>
-  <table>
+  <table id="table">
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
 
   <?php
@@ -162,6 +160,21 @@ include('includes/headeruser.php');
   echo"<tr><td colspan='2'>Total:</td><td>$total_price</td></tr>"
   ?>
   </table>
+
+  <script>
+    
+            var index, table = document.getElementById('table');
+            for(var i = 1; i < table.rows.length; i++)
+            {
+                table.rows[i].cells[3].onclick = function()
+                {
+                  index = this.parentElement.rowIndex;
+                  table.deleteRow(index);
+                };
+                
+            }
+    
+  </script>
 
   <label>Is this a to-go order? </label>
   <input type="radio" name="to_go" value="yes"> Yes
