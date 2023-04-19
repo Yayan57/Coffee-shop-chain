@@ -1,32 +1,3 @@
-<style>
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    margin: 10px 0;
-  }
-  label {
-    display: inline-block;
-    width: 100px;
-  }
-  input[type="number"] {
-    width: 50px;
-  }
-  input[type="submit"] {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 0;
-    cursor: pointer;
-  }
-</style>
-
 <?php 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
@@ -81,6 +52,9 @@ if (mysqli_num_rows($result) > 0) {
 } else {
   echo "No items available.";
 }
+
+// Close connection
+mysqli_close($con);
 
   include('includes/footer.php');
 ?>
