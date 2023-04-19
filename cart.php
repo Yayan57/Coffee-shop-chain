@@ -109,7 +109,7 @@ if (count($_SESSION['cart']) > 0) {
 
     <?php foreach (($_SESSION['item'] as $item_name) and ($_SESSION['quantity'] as $quantity) and ($_SESSION['price'] as $price)) { ?>
     <tr><td><?php echo $item_name ?></td><td><?php echo $quantity?></td><td><?php echo $item_price?></td><td><input type="type" name="remove" value="remove"></td></tr>";
-    <?php } ?>
+    <?php } } ?>
   <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
 
   </table>
