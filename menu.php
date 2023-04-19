@@ -55,7 +55,6 @@ $result = mysqli_query($con, $sql);
 if(isset($_POST['addtocart'])){
   header('Location: cart.php');
 }
-include('includes/headeruser.php');
 
 if (mysqli_num_rows($result) > 0) {
   echo "<form method='post' action='menu.php'>";
