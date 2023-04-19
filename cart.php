@@ -103,11 +103,11 @@ if (count($_SESSION['cart']) > 0) {
 <html>
 <form name="cart_form" method="POST" action="cart.php">
   <?php if (count($_SESSION['cart']) > 0) { ?>
-  <tr><td><?php echo $item_name ?></td><td><?php echo $quantity ?></td><td><?php echo $item_price?></td>
+  <tr><td><?php echo "name" ?></td><td><?php echo "quantity" ?></td><td><?php echo "price"?></td>
   <table id="table">
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
 
-    <?php foreach (($_SESSION['item'] as $item_name) and ($_SESSION['quantity'] as $quantity) and ($_SESSION['price'] as $price)) { ?>
+    <?php foreach (($_SESSION['item'] as $item_name) and ($_SESSION['quantity'] as $quantity) and ($_SESSION['price'] as $item_price)) { ?>
     <tr><td><?php echo $item_name ?></td><td><?php echo $quantity?></td><td><?php echo $item_price?></td><td><input type="type" name="remove" value="remove"></td></tr>";
     <?php } } ?>
   <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
