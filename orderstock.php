@@ -19,12 +19,7 @@ if ($con->connect_error) {
 }
 
 
-// Get form data
-$productid = mysqli_real_escape_string($con, $_POST['productid']);
-$item_name = mysqli_real_escape_string($con, $_POST['item_name']);
-$price = mysqli_real_escape_string($con, $_POST['price']);
-$quantity = mysqli_real_escape_string($con, $_POST['quantity']);
-$branchnum = mysqli_real_escape_string($con, $_POST['branchnum']);
+
 
 $sql = "SELECT supplier.company_name, inventory.item_name
         FROM supplier
@@ -36,12 +31,18 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo "<option value='" . $row["company_name"] . "'>" . $row["item_name"] . "</option>";
     }
+} else {
+    echo "0 results";
 }
+
+// Get form data
+$product_id = mysqli_real_escape_string($con, $_POST['product_id']);
+$quantity = mysqli_real_escape_string($con, $_POST['quantity']);
 
 // Check if order button was clicked
 if(isset($_POST['order_button'])) {
     // update quantity
-    $sql = "UPDATE inventory SET quantity = quantity + '$quantity' WHERE productid = '$productid'";
+    $sql = "UPDATE inventory SET quantity = quantity + '$quantity' WHERE productid = '$product_id'";
     if ($con->query($sql) === TRUE) {
         header("Location: inventoryregister.php");
         exit();

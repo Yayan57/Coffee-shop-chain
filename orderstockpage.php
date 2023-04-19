@@ -37,7 +37,7 @@
 	</style>
 </head>
 <body>
-	<h2>Order/View Inventory Items</h2>
+	<h2>Order Inventory Items</h2>
 	<form method="post" action="orderstock.php">
 		<label for="inventory">Select an item:</label>
 			<select name="inventory" id="inventory">
@@ -46,7 +46,7 @@
 		<label for="quantity">Quantity:</label>
 		<input type="number" name="quantity" id="quantity" min="0"><br>
 		
-		<input type="submit" value="order_button" name="order_button">
+		<input type="submit" value="order_button" name="order">
 
 	</form>
     
