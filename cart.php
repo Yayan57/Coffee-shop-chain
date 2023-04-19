@@ -156,9 +156,5 @@ if (count($_SESSION['cart']) > 0) {
 
 
 <?php
-  // Close connection
-  if (count($_SESSION['cart']) > 0) {
-  mysqli_close($con);
-  }
 include('includes/footer.php');
 ?>
