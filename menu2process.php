@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if(isset($_SESSION['type']) and $_SESSION['type'] == "customer"){
+        include('includes/headeruser.php');    
+      }else{
+        include('includes/header.php');}
     $servername = "coffee-shop.mysql.database.azure.com";
     $username = "group9";
     $password = "Databases9!";
@@ -10,28 +14,38 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $cart      = $_POST['cart'];      // array of items
-        $branch    = $_POST['branch'];    // location where order is placed
-        $itemcount = $_POST['itemcount']; // number of items ordered
-        $total     = $_POST['total'];     // total cost
-        var_dump($_POST);
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $cart = $_GET["cart"];
+        $branch = $_GET["branch"];
+        $itemcount = $_GET["itemcount"];
+        $total = $_GET["total"];
+
+        $newcart = explode(",", $cart);
+        // Loop through the array and further split each item at the hyphen
+        foreach ($newcart as $cart_item) {
+            $item_details = explode(" - ", $cart_item);
+            $item_name = $item_details[0];
+            $item_price = $item_details[1];
+            
+            // Do something with the item name and price
+            // For example, you can add them to separate arrays
+            $item_names[] = $item_name;
+            $item_prices[] = $item_price;
+        }
         $first  = ''; //stores first word of item name
         $second = ''; //stores second word of item name
         //checks if each item is available before processing order
         //error is returned with name of item which is out of stock
-        foreach ($cart as $item) {
+        foreach ($newcart as $item) {
             $parts  = explode(" ", $item);
             $first  = $parts[0];
             $second = $parts[1];
-            //subtracts from quantity of each item ordered 
             $sql = "SELECT quantity FROM inventory WHERE item_name LIKE '{$first}%{$second}%'
                    ";
             $iquant = $conn->query($sql);
-            if($iquant < 1){trigger_error("$first $second OUT OF STOCK! SORRY!", E_USER_ERROR);}
         }
         //decrements quantity of each item
-        foreach ($cart as $item) {
+        foreach ($newcart as $item) {
             $parts  = explode(" ", $item);
             $first  = $parts[0];
             $second = $parts[1];
@@ -44,4 +58,13 @@
         }
     //}
     mysqli_close($conn);
+ ?>
+ <!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="cstyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<h1>ORDER PLACED!</h1>
+</html>
+<?php
+    include('includes/footer.php');
 ?>
