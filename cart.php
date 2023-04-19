@@ -67,6 +67,25 @@ if (count($_SESSION['cart']) > 0) {
   $_SESSION['branchN'] = $_POST['branchN'];
   }
 
+  $_SESSION['item'] = array();
+  $_SESSION['item'] = array();
+  $_SESSION['quantity'] = array();
+  $i=0;
+  $total_price = 0;
+  foreach ($_SESSION['cart'] as $item) {
+    $productid = $item['productid'];
+    $_SESSION['quantity'] = $item['quantity'];
+    $sql = "SELECT item_name, price FROM inventory WHERE productid = '$productid'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION['item'][$i] = $row['item_name'];
+    $_SESSION['price'][$i] = $row['price'];
+    $item_price = $price * $quantity;
+    $total_price = $total_price + $item_price;
+    $i = $i+1;
+  }
+
+
 
 
   //set price
@@ -88,7 +107,9 @@ if (count($_SESSION['cart']) > 0) {
   <table id="table">
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
 
-  
+    <?php foreach (($_SESSION['item'] as $item_name) and ($_SESSION['quantity'] as $quantity) and ($_SESSION['price'] as $price)) { ?>
+    <tr><td><?php echo $item_name ?></td><td><?php echo $quantity?></td><td><?php echo $item_price?></td><td><input type="type" name="remove" value="remove"></td></tr>";
+    <?php } ?>
   <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
 
   </table>
