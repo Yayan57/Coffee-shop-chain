@@ -1,3 +1,32 @@
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    margin: 10px 0;
+  }
+  label {
+    display: inline-block;
+    width: 100px;
+  }
+  input[type="number"] {
+    width: 50px;
+  }
+  input[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+</style>
+
 <?php 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
@@ -25,21 +54,13 @@ if ($con->connect_error) {
 $sql = "SELECT productid, item_name, price FROM inventory";
 $result = mysqli_query($con, $sql);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST')
-{
-
-  if(isset($_POST['addtocart'])){
-    header('Location: cart.php');
-  }
+if(isset($_POST['addtocart'])){
+  header('Location: cart.php');
 }
 
+include('includes/headeruser.php');
+
 if (mysqli_num_rows($result) > 0) {
-  $stylesh='stylesheet';
-  $style = 'landingstyle.css';
-  echo"<head>
-  <link rel=".$stylesh." href=".$style."</link>
-  </head>
-";
   echo "<form method='post' action='menu.php'>";
   echo "<div style='display: flex; flex-wrap: wrap;'>";
   $count = 0;
