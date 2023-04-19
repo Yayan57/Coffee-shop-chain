@@ -82,8 +82,5 @@ if (mysqli_num_rows($result) > 0) {
   echo "No items available.";
 }
 
-// Close connection
-mysqli_close($con);
-
   include('includes/footer.php');
 ?>
