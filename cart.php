@@ -88,25 +88,6 @@ if (count($_SESSION['cart']) > 0) {
   <table id="table">
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
 
-  <?php
-  $total_price = 0;
-  foreach ($_SESSION['cart'] as $item) {
-    $productid = $item['productid'];
-    $quantity = $item['quantity'];
-    $sql = "SELECT item_name, price FROM inventory WHERE productid = '$productid'";
-    $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $item_name = $row['item_name'];
-    $price = $row['price'];
-    $item_price = $price * $quantity;
-    $total_price = $total_price + $item_price;
-    $type="submit";
-    $remove="remove"; ?>
-    <tr><td><?php echo $item_name ?></td><td><?php echo $quantity?></td><td><?php echo $item_price?></td><td><input type="type" name="remove" value="remove"></td></tr>";
-    <?php}?>
-  
-  <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
-
   </table>
 
   <script>
