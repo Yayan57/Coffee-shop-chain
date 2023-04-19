@@ -74,13 +74,13 @@ if (count($_SESSION['cart']) > 0) {
   $total_price = 0;
   foreach ($_SESSION['cart'] as $item) {
     $productid = $item['productid'];
-    $_SESSION['quantity'] = $item['quantity'];
+    $_SESSION['quantity'][$i] = $item['quantity'];
     $sql = "SELECT item_name, price FROM inventory WHERE productid = '$productid'";
     $result = mysqli_query($con, $sql);
     $row = mysqli_fetch_assoc($result);
     $_SESSION['item'][$i] = $row['item_name'];
     $_SESSION['price'][$i] = $row['price'];
-    $item_price = $price * $quantity;
+    $item_price = $_SESSION['price'][$i] * $_SESSION['quantity'][$i];
     $total_price = $total_price + $item_price;
     $i = $i+1;
   }
@@ -101,12 +101,18 @@ if (count($_SESSION['cart']) > 0) {
 ?>
 
 <html>
+<head>
+        <link rel="stylesheet" href="landingstyle.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+
 <form name="cart_form" method="POST" action="cart.php">
   <?php if (count($_SESSION['cart']) > 0) { ?>
   <table id="table">
   <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
-    <?php $j = 0; while (j < count($_SESSION['item'])) { ?>
-    <tr><td><?php echo $_SESSION["item_name"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="type" name="remove" value="remove"></td></tr>";
+    <?php $j = 0;
+    while ($j < count($_SESSION['item'])) { ?>
+    <tr><td><?php echo $_SESSION["item"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="type" name="remove" value="remove"></td></tr>";
     <?php $j = $j+1;} ?>
   <tr><td colspan='2'>Total:</td><td><?php echo $total_price ?></td></tr>
 

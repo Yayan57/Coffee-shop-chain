@@ -31,7 +31,7 @@ if(isset($_POST['addtocart'])){
 
 
 if (mysqli_num_rows($result) > 0) {
-  echo "<form method='post' action='menu.php'>";
+  echo "<form method='post' action='cart.php'>";
   echo "<div style='display: flex; flex-wrap: wrap;'>";
   $count = 0;
   while($row = mysqli_fetch_assoc($result)) {
