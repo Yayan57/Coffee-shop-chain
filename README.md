@@ -25,9 +25,22 @@ landing.php
 login.php
 about.php
 menuguest.php
+Header and footer in includes folder (Can vary depending on user)
 
 Manager-
 managerlogin.php
 managerhome.php
 reports.php
+logout.php
+managerheader.php
+footer.php
 
+Employee-
+employeehome.php
+inventoryregister.php
+inventory_submit.php
+inventory.php
+profile.php
+logout.php
+
+Customer-
