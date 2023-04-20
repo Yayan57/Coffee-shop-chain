@@ -18,19 +18,18 @@ if ($con->connect_error) {
   die("Connection failed: " . $con->connect_error);
 }
 
-
-
-
 $sql = "SELECT supplier.company_name, inventory.item_name
         FROM supplier
         INNER JOIN inventory ON supplier.product_id = inventory.productid";
-$result = $conn->query($sql);
+$result = $con->query($sql);
 
 //Loop through items and add them to the dropdown list
 if ($result->num_rows > 0) {
+    echo "<select name=".'branchN'." id=".'branchN'.">";
     while($row = $result->fetch_assoc()) {
         echo "<option value='" . $row["company_name"] . " '> " . $row["item_name"] . "</option>";
     }
+    echo "</select>";
 } else {
     echo "0 results";
 }
