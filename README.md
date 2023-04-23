@@ -2,6 +2,8 @@
 
 This is a database for a hypothetical coffee shop chain
 
+GITHUB LINK
+https://github.com/Yayan57/Coffee-shop-chain
 
 User Accounts-
 
