@@ -47,7 +47,6 @@ Customer-
 cart.php
 checkout.php
 login.php
-menu2.php
-menu2process.php
+menu.php
 profile.php
 register.php
