@@ -44,3 +44,10 @@ profile.php
 logout.php
 
 Customer-
+cart.php
+checkout.php
+login.php
+menu2.php
+menu2process.php
+profile.php
+register.php
