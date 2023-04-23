@@ -8,17 +8,6 @@ if (!isset($_SESSION['cart'])) {
   $_SESSION['cart'] = array();
 }
 
-// remove button
-if (isset($_POST['remove'])) {
-  $productid = $_POST['productid'];
-  foreach ($_SESSION['cart'] as $key => $item) {
-    if ($item['productid'] == $productid) {
-      unset($_SESSION['cart'][$key]);
-      break;
-    }
-  }
-}
-
 //adding into cart
 foreach ($_POST as $key => $value) {
   if (substr($key, 0, 3) == "qty" && $value > 0) {
@@ -165,7 +154,7 @@ input[type="submit"]:hover {
 <form name="cart_form" method="POST" action="cart.php">
   <?php if (count($_SESSION['cart']) > 0) { ?>
   <table id="table">
-  <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
+  <tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>
     <?php $j = 0;
     while ($j < count($_SESSION['item'])) { ?>
     <tr><td><?php echo $_SESSION["item"][$j] ?></td><td><?php echo $_SESSION["quantity"][$j]?></td><td><?php echo $_SESSION["price"][$j]?></td><td><input type="submit" name="remove" value="remove"></td></tr>
