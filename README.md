@@ -35,7 +35,7 @@ Header and footer in includes folder (Can vary depending on user)
 
 Manager: \
 managerlogin.php - Login page for manager. \
-managerhome.php - Home page for manager shows triggers. \ 
+managerhome.php - Home page for manager shows triggers. \
 reports.php - Generates reports. \
 logout.php - Ends user session. \
 managerheader.php - Header for all manager functionality. \
@@ -45,14 +45,14 @@ Employee: \
 employeehome.php - Home page for employee, shows recent transactions. \
 inventoryregister.php - Allows user to view, create, delete, or add aditional inventory. \
 inventory_submit.php - php backend for inventoryregister.php. \
-inventory.php - Displays the full inventory and all relevant information.\ 
+inventory.php - Displays the full inventory and all relevant information. \
 profile.php - Displays the profile information of either the employee or customer.\
-logout.php - Ends user session. \
+logout.php - Ends user session.
 
-Customer: \ 
+Customer: \
 cart.php - Presents selected items and total price. And also allows customer to specify branch, preferred payment method, and carryout options. \
 checkout.php - Confirm and send order request. \
 login.php - Customer must create an account and login to order. \
 menu.php -  Pull items and details from current inventory to create menu. \
 profile.php - View and update Customer and Employee account information. \
-register.php - Create and provide account information for Customer and Employee. \
+register.php - Create and provide account information for Customer and Employee.
