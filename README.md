@@ -20,35 +20,39 @@ This project was made with an azure server running the database and website, the
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
+In order to properly install and run the files you must have a installation of php, xampp, mySql workbench in order to run on localhost.
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
 -File Guide-
 
-Home-
-landing.php
-login.php
-about.php
-menuguest.php
-Header and footer in includes folder (Can vary depending on user)
+Home: \
+landing.php - This is the landing page for when you first enter the website. \
+login.php - The login page for both customer and employee. \
+about.php - Tells what the website and company is about. \
+menuguest.php - Shows menu but since the user isn't logged in they can't order.\
+Header and footer in includes folder (Can vary depending on user) 
 
-Manager-
-managerlogin.php
-managerhome.php
-reports.php
-logout.php
-managerheader.php
-footer.php
+Manager: \
+managerlogin.php - Login page for manager. \
+managerhome.php - Home page for manager shows triggers. \ 
+reports.php - Generates reports. \
+logout.php - Ends user session. \
+managerheader.php - Header for all manager functionality. \
+mfooter.php - Thi is where the manager login is located. 
 
-Employee-
-employeehome.php
-inventoryregister.php
-inventory_submit.php
-inventory.php
-profile.php
-logout.php
+Employee: \
+employeehome.php - Home page for employee, shows recent transactions. \
+inventoryregister.php - Allows user to view, create, delete, or add aditional inventory. \
+inventory_submit.php - php backend for inventoryregister.php. \
+inventory.php - Displays the full inventory and all relevant information.\ 
+profile.php - Displays the profile information of either the employee or customer.\
+logout.php - Ends user session. \
 
-Customer-
-cart.php
-checkout.php
-login.php
-menu.php
-profile.php
-register.php
+Customer: \ 
+cart.php - Presents selected items and total price. And also allows customer to specify branch, preferred payment method, and carryout options. \
+checkout.php - Confirm and send order request. \
+login.php - Customer must create an account and login to order. \
+menu.php -  Pull items and details from current inventory to create menu. \
+profile.php - View and update Customer and Employee account information. \
+register.php - Create and provide account information for Customer and Employee. \
